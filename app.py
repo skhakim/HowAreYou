@@ -22,20 +22,6 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-# delete later
-from datetime import datetime
-# Route for seeing a data
-@app.route('/data')
-def get_time():
-    # Returning an api for showing in  reactjs
-    return {
-        'Name': "geek",
-        "Age": "22",
-        "Date": 10,
-        "programming": "python"
-    }
-
-
 if __name__ == '__main__':
     print('Type', type(app))
     app.run()
