@@ -1,0 +1,28 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 20vh;
+    background-color: gray;
+    padding-left: 7vw;
+    padding-right: 7vw;
+    margin-top: 100px;
+}
+
+.social-media {
+    display: flex;
+    list-style: none;
+}
+.social-media li {
+    padding: 10px;
+    font-size: 1.2rem;
+}
+.social-media li > a {
+    text-decoration: none;
+    color: black;
+}

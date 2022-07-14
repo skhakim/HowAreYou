@@ -1,0 +1,22 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.talks-body{
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    height: 60%;
+    margin-top: 10%;
+    margin-left: 15%;
+}
+
+.take-a-tour:hover {
+    cursor: pointer;
+    color: #2b9dfa;
+}
+
+.line{
+    width: 60%;
+    margin-left: 0%;
+    margin-top: 4%;
+}
