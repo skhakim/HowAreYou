@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* position: relative; */
+    height: 100%;
+}
+.nav-links {
+    display: flex;
+    padding-left: 0%;
+    /* margin-left: 5%; */
+    margin-right: 5%;
+    margin-top: 12%;
+    list-style: none;
+    width: 100%;
+}
+.nav-links li {
+    position: relative;
+    padding-right: 12%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    /* background-color: red; */
+}
+.nav-links li::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    /* padding-left: 6rem; */
+    background-color: rgb(88, 88, 230);
+    visibility: hidden;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: all 0.3s ease-in-out 0s;
+}
+.nav-links li:hover {
+    color: rgb(62, 62, 221);
+    cursor: pointer;
+}
+.nav-links li:hover::after {
+    visibility: visible;
+    transform: scaleX(0.6);
+}
+.nav-right {
+    justify-self: flex-end;
+    /* margin-top: 2vh; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.header-logo{
+    height: 90%;
+    width: 70%;
+}
+
+.header{
+    height: 20%;
+    display: flex;
+}
+.header-right{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-btn{
+    margin-left: 70%;
+    margin-top: 7%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.login-btn:hover {
+    color: rgb(62, 62, 221);
+    cursor: pointer;
+    font-weight: 200;
+}
+
+.rad-box {
+    padding: 17px 25px 17px 34px;
+    margin-left: 5%;
+    border-radius: 25px 0 25px 25px;
+    margin-top: 5px;
+    color: white;
+    background-color: cadetblue;
+    width: 65%;
+    text-align: center;
+    font-family: 'Montserrat', serif;
+    font-size: 1.2rem;
+  }
+
+  .rad-box:hover {
+  	cursor: pointer;
+  }
