@@ -2,7 +2,7 @@ from app import app
 from models import *
 from qa_models import *
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, jsonify, make_response, request
+from flask import jsonify, make_response, request
 from functools import wraps
 import jwt
 from datetime import datetime, timedelta
@@ -10,13 +10,11 @@ import uuid
 
 
 app.config['SECRET_KEY'] = 'HahaNoSecret'
-current_user = None
 
 
 def generic_token_required(user_type, f):
     @wraps(f)
     def generic_decorator(*args, **kwargs):
-        global current_user
         token = None
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
@@ -31,8 +29,10 @@ def generic_token_required(user_type, f):
                 current_user = Person.query.filter_by(person_id=data['person_id']).first()
             elif user_type == 'Patient':
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
-            else:
-                current_user = Psychiatrist.query.filter_by(psychatrist_id=data['patient_id']).first()
+            elif user_type == 'Psychiatrist':
+                # print('PRINTING DATA 3')
+                current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
+                # print(current_user)
         except:
             return jsonify({'message': 'Token is invalid!'})
         return f(current_user, *args, **kwargs)
@@ -46,10 +46,8 @@ psychiatrist_token_required = lambda f : generic_token_required('Psychiatrist', 
 
 @app.route('/logout', methods=['GET', 'POST'])
 @token_required
-def generic_logout(_):
-    global current_user
-    current_user = None
-    jwt.encode(dict()) # clear the token
+def generic_logout():
+    jwt.encode(dict())
 
 
 @app.route('/user', methods=['GET'])
@@ -67,10 +65,11 @@ def get_all_users(_):
 
 
 @app.route('/own', methods=['GET'])
-@token_required
+@patient_token_required
 def get_current_user(_):
-    global current_user
-    user = current_user
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    user = Patient.query.filter_by(patient_id=data['patient_id']).first()
     return {
             'public_id': user.person_id,
             'name': user.name,
@@ -79,7 +78,6 @@ def get_current_user(_):
 
 
 def generic_login(user_type, auth):
-
     if not auth or not auth.get('email') or not auth.get('password'):
         return make_response('Could not verify', 401, {'Authenticate': "Login required!"})
     user = Person.query.filter_by(email=auth.get('email')).first()
@@ -90,7 +88,6 @@ def generic_login(user_type, auth):
         id_name = 'patient_id'
     elif user_type == 'Psychiatrist':
         id_name = 'psychiatrist_id'
-
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=60)},
                            app.config['SECRET_KEY'])
@@ -137,6 +134,10 @@ def signup():
         return make_response('User already exists. Please Log in.', 202)
 
 
+@app.route('/r')
+@psychiatrist_token_required
+def d(_):
+    return 'Hello'
 
 
 @app.route('/patient_signup', methods=['POST'])
