@@ -79,9 +79,11 @@ def get_current_user(_):
 
 
 def generic_login(user_type, auth):
+
     if not auth or not auth.get('email') or not auth.get('password'):
         return make_response('Could not verify', 401, {'Authenticate': "Login required!"})
     user = Person.query.filter_by(email=auth.get('email')).first()
+    print(user)
     if user_type == 'Person':
         id_name = 'person_id'
     elif user_type == 'Patient':
@@ -98,7 +100,8 @@ def generic_login(user_type, auth):
 
 @app.route('/login', methods=['POST'])
 def login():
-    auth = request.form
+    auth = request.get_json()
+    print(auth)
     return generic_login('Person', auth)
 
 

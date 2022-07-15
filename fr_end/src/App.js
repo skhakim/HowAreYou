@@ -16,7 +16,7 @@ function App() {
   const [showLogoutModal, changeLogoutModal] = useState(false);
 
   const promptLogin = async (loginInfo) => {
-    console.log("Trying login", loginInfo)
+    console.log("Trying login", JSON.stringify(loginInfo))
 
     const res = await fetch('http://localhost:8001/login', 
       {
