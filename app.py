@@ -4,9 +4,12 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_session import Session
 
+
 app = Flask(__name__)
 # set app config uri to postgres
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/mhst'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/mhst'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@db/mhst'   #FOR SRJ
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'HahaNoSecret'
 app.secret_key = 'NoSecretEither'
