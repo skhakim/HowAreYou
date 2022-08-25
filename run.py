@@ -11,7 +11,7 @@ from file_requests import *
 from check_test_reponses import *
 
 from models.export import *
-
+from trends import *
 from models.disease_models import *
 
 
