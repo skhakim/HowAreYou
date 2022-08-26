@@ -28,35 +28,32 @@ export function CreateFileRequest() {
     }
 
     return (
-        <div className="reqForm">
-            <form onSubmit={(e) => {e.preventDefault(); submit(title, desc).then(
-                (response) => {
-                    if(response.ok) {
-                        alert("Thanks for uploading the file request. It will be checked by review board members.");
-                        navigate('/psyhome');
-                    } else {
-                        alert("Please try again");
-                    }
-                }
-            );}}>
+        <div style={{marginTop:"5%"}} className="reqForm">
+            <form >
                 <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Request Title</label>
-                    <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           placeholder="Title" onChange={(e) => setTitle(e.target.value)}/>
+                    <label style={{fontSize:"1.1rem"}} htmlFor="exampleInputEmail1"><b>Request Title</b></label>
+                    <input type="text"  id="exampleInputEmail1" aria-describedby="emailHelp" style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", }}
+                           placeholder="Enter Title" onChange={(e) => setTitle(e.target.value)}/>
                 </div>
                 <br/><br/>
                 <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Request Description</label>
-                    <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Please detail out what you need"
+                    <label style={{fontSize:"1.1rem", marginBottom:"2%"}} htmlFor="exampleInputPassword1"><b>Request Description</b></label>
+                    <textarea rows={5} cols={100} id="exampleInputPassword1" placeholder="Please detail out what you need" style={{resize:"none", width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "80px", outline: "none", marginTop:"25px" }}
                      onChange={(e) => setDesc(e.target.value)}/>
                 </div>
                 <br/> <br/>
-                <div className="form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                    <label className="form-check-label" htmlFor="exampleCheck1">I agree to the terms and conditions.</label>
+                <div className="done-btn" onClick={(e) => {e.preventDefault(); submit(title, desc).then(
+                        (response) => {
+                            if(response.ok) {
+                                alert("Thanks for uploading the file request. It will be checked by review board members.");
+                                navigate('/psyhome');
+                            } else {
+                                alert("Please try again");
+                            }
+                        }
+                        );}}>
+                    Submit
                 </div>
-                <br/> <br/>
-                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>
     );
