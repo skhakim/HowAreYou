@@ -36,7 +36,8 @@ def show_patient_responses(test_result_id):
 
 @app.route('/responseBasic/<test_result_id>')
 def rd(test_result_id):
-    result = db.session.execute("""SELECT persons.name as patient_name, persons.gender, p.height_inches, p.weight_kgs, p.location, tr.score, tests.name AS test_name
+    result = db.session.execute("""SELECT persons.name as patient_name, EXTRACT(YEAR FROM age(date_of_birth))::int as patient_age
+    , persons.gender, p.height_inches, p.weight_kgs, p.location, tr.score, tests.name AS test_name
     FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
         INNER JOIN persons ON persons.person_id = tr.patient_id
         INNER JOIN patients p on persons.person_id = p.patient_id WHERE tr.test_result_id = :test_result_id""", {'test_result_id': test_result_id})

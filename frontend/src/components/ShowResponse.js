@@ -193,31 +193,33 @@ const ShowResponse = (props) => {
                     <div className='questionId2'>1.</div>
                     <div className='questionText'>Age</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientAge}</div>
+                <div className='optionContainer'>{responseee.patient_age} years</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>2.</div>
                     <div className='questionText'>Gender</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientGender}</div>
+                <div className='optionContainer'>
+                    {(responseee.gender == 'M') ? 'Male' : ((responseee.gender == 'F') ? 'Female' : 'Unspecified')}
+                </div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>3.</div>
                     <div className='questionText'>Height</div>
                 </div>
-                <div className='optionContainer'>{responseee.height_inches}</div>
+                <div className='optionContainer'>{responseee.height_inches} inches</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>4.</div>
                     <div className='questionText'>Weight</div>
                 </div>
-                <div className='optionContainer'>{responseee.weight_kgs}</div>
+                <div className='optionContainer'>{responseee.weight_kgs} kgs</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>5.</div>
                     <div className='questionText'>Location</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientLocation}</div>
+                <div className='optionContainer'>{responseee.location}</div>
             </div>
 
 
