@@ -18,7 +18,7 @@ import ScoreNDResponse from "./components/ScoreNDResponse";
 import VerifiedReports from './components/VerifiedReport';
 import {CreateFileRequest} from "./components/FileRequest";
 import ApprovedFileRequests from "./components/ApprovedFileRequests";
-import {ViewFileRequest} from "./components/ViewFileRequest";
+import {ApproveFileRequest, ViewFileRequest} from "./components/ViewFileRequest";
 import {Upload} from "./components/Upload";
 import AddOrDeleteQues from "./components/AddOrDeleteQues";
 import AddQuestion from "./components/AddQuestion";
@@ -49,6 +49,10 @@ function App() {
         return <ViewFileRequest frID={useParams().frID} />
     }
 
+    function RenderReviewFileRequest() {
+        return <ApproveFileRequest frID={useParams().frID} />
+    }
+
     function RenderAddOrDeleteQuestion() {
         return <AddOrDeleteQues testID={useParams().testID} />
     }
@@ -61,13 +65,16 @@ function App() {
         return <DetailedQuesRequest testID={useParams().testID} quesID={useParams().quesID} mode={useParams().mode} />
     }
 
+
+
     return (
 
         <Router>
-            <div>
+            <div style={{background: "#FFFFE0"}}>
                 <Header changeLoginModalFn={() => changeLoginModal(true)} loggedIn={(getPersonId() !== '')}
                         cngLogoutModalFn={() => changeLogoutModal(true)}/>
 
+                <div>
                 <Routes>
 
                     <Route path="/login" element={<LoginModal changeLoginModalFn={() => changeLoginModal(false)}
@@ -92,6 +99,7 @@ function App() {
                     <Route path="/create_file_request" element={<CreateFileRequest />} />
                     <Route path="/approved_file_requests" element={<ApprovedFileRequests />} />
                     <Route path="/file_request/:frID" element={<RenderFileRequest />} />
+                    <Route path="/review_file_request/:frID" element={<RenderReviewFileRequest />} />
 
                     {/*<Route path="/upl" element={<Upload/>} />*/}
 
@@ -106,6 +114,7 @@ function App() {
 
                 </Routes>
 
+                    </div>
                 <Footer/>
             </div>
         </Router>

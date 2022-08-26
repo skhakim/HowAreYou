@@ -1,7 +1,7 @@
 import React from 'react'
 import "./LoginModal.css"
 import {useState} from 'react'
-import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType} from './Variables.js';
+import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType, setIsReviewer} from './Variables.js';
 import {useNavigate} from "react-router-dom";
 
 
@@ -21,11 +21,13 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
             }
         );
         try {
-            const data = await res.json()
+            const data = await res.json().then(data => {console.log("Data2", data)});
             setToken(data[0]['token'])
             setIdType(data[1]['id_name'])
             setPersonId(data[2]['person_id'])
             setUsername(data[3]['name'])
+            setIsReviewer(data[4]['is_reviewer'])
+            console.log("Data", data)
             return true
         } catch (error) {
             console.log(error)

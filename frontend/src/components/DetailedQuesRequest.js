@@ -79,8 +79,6 @@ const DetailedQuesRequest = (props) => {
 
     return (
         <div className='container'>
-            
-            
             {
                 requestDetails.map(
                     (request) => (
@@ -95,7 +93,6 @@ const DetailedQuesRequest = (props) => {
                                 <div className='questionTextContainer'>
                                     <div className='questionText'>{request.quesBody}</div>
                                 </div>
-                                
 
                                 {
                                     request.options.map(
@@ -112,8 +109,6 @@ const DetailedQuesRequest = (props) => {
                                         )
                                     )
                                 }
-
-                                
 
                                 {/*
                                     (request.reason.length > 0) ? (

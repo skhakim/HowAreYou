@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import styles from "./newCss/Tests.module.css"
 import {useNavigate} from "react-router-dom";
+import {getIsReviewer} from "./Variables";
 
 const PsyHome = () => {
 
@@ -18,11 +19,18 @@ const PsyHome = () => {
             <span className={styles.testName} onClick={() => navigate('/create_file_request')}>Request File From Patients</span>
             <hr className={styles.linePsy}></hr>
 
-            <span className={styles.testName} onClick={() => navigate('/')}>Pending Colsultation Request</span>
+            <span className={styles.testName} onClick={() => navigate('/')}>Pending Consultation Request</span>
             <hr className={styles.linePsy}></hr>
 
-            <span className={styles.testName} onClick={() => navigate('/')}>Review Questionnaire Update Request</span>
+            {console.log(getIsReviewer())}
+            {console.log(getIsReviewer() == true)}
+            {getIsReviewer() === 'true' ? <>
+            <span className={styles.testName} onClick={() => navigate('/')}>Review Psychiatrist Sign-up Requests</span>
             <hr className={styles.linePsy}></hr>
+            <span className={styles.testName} onClick={() => navigate('/')}>Review Questionnaire Update Requests</span>
+            <hr className={styles.linePsy}></hr>
+            <span className={styles.testName} onClick={() => navigate('/')}>Review File Update Requests</span>
+            <hr className={styles.linePsy}></hr> </> : <></> }
         </div>
     )
 }

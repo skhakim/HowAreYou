@@ -8,7 +8,8 @@ from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
 from app import app
-from authentication_controller import psychiatrist_token_required, token_required, patient_token_required
+from authentication_controller import psychiatrist_token_required, token_required, patient_token_required, \
+    is_review_board_member
 from models.export import *
 
 
@@ -33,6 +34,14 @@ def create_file_request(_):
 @token_required
 def get_file_request(_, file_request_id):
     file_request = FileRequest.query.with_entities(FileRequest.file_request_id, FileRequest.title, FileRequest.description).filter_by(file_request_id=file_request_id, is_verified=True).first()
+    if file_request is None:
+        return "File request not found!", 404
+    return jsonify(dict(file_request))
+
+@app.route('/vfr_id_rev/<int:file_request_id>', methods=['GET'])
+@is_review_board_member
+def get_file_request_rev(_, file_request_id):
+    file_request = FileRequest.query.with_entities(FileRequest.file_request_id, FileRequest.title, FileRequest.description).filter_by(file_request_id=file_request_id).first()
     if file_request is None:
         return "File request not found!", 404
     return jsonify(dict(file_request))
@@ -73,3 +82,23 @@ def download_files(frID):
     print(fr_dir)
     subprocess.call("zip tmp.zip -r " + fr_dir, shell=True)
     return send_file("tmp.zip", as_attachment=True)
+
+
+@is_review_board_member
+@app.route('/app_fr/<int:frID>')
+def approve_file_request(frID):
+    fr = FileRequest.query.filter_by(file_request_id=frID).first()
+    fr.is_verified = True
+    db.session.commit()
+    return jsonify({'response': 'success'})
+
+
+# @is_review_board_member
+@app.route('/del_fr/<int:frID>')
+def delete_file_request(frID):
+    fr = FileRequest.query.filter_by(file_request_id=frID).first()
+    db.session.delete(fr)
+    db.session.commit()
+    return jsonify({'response': 'success'})
+
+

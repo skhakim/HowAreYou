@@ -90,8 +90,14 @@ def generic_login(auth):
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=600)},
                            app.config['SECRET_KEY'])
+        rm = ReviewBoardMember.query.filter_by(board_member_id=user.person_id)
+        flag = False
+        for _ in rm:
+            flag = True
+            print("Flag is set")
+            break
         return make_response(jsonify({'token': token}, {'id_name': id_name}, {'person_id': user.person_id}
-                                        , {'name': user.name}), 201)
+                                        , {'name': user.name}, {'is_reviewer' : flag}), 201)
     return make_response('Could not verify', 403, {'Authenticate': "Login required!"})
 
 

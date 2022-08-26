@@ -30,11 +30,20 @@ export function getUsername() {
     return localStorage.getItem('userName');
 }
 
+export function setIsReviewer(_isReviewer) {
+    localStorage.setItem('isReviewer', _isReviewer);
+}
+
+export function getIsReviewer() {
+    return localStorage.getItem('isReviewer');
+}
+
 export function clearAll() {
     localStorage.setItem('token', '');
     localStorage.setItem('personId', '');
     localStorage.setItem('idType', '');
     localStorage.setItem('userName', '');
+    localStorage.setItem('isReviewer', '');
 }
 
 export function questionnaire_post_response(test_id, options)

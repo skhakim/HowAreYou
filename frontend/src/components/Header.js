@@ -225,7 +225,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
             </div>*/}
 
             <HideOnScroll >
-            <AppBar position="sticky" enableColorOnDark={true} sx={{bgcolor:"#ffffff"}}>
+            <AppBar position="sticky" enableColorOnDark={true} sx={{bgcolor:"#5F9EA0"}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         
@@ -300,7 +300,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
 
                                         <Tooltip title="Open settings" >
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ml:5 }}>
-                                                <Avatar sx={{border:2, borderColor:"black", bgcolor:"#329599"}}>{getUsername().charAt(0)}</Avatar>
+                                                <Avatar sx={{border:2, borderColor:"black", bgcolor:"#FF7F50"}}>{getUsername().charAt(0)}</Avatar>
                                             </IconButton>
                                         </Tooltip>
                                     </>

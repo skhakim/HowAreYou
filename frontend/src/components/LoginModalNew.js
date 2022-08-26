@@ -3,7 +3,7 @@ import styles from "./newCss/Login.module.css"
 import {useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import Avatar from '@mui/material/Avatar';
-import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType} from './Variables.js';
+import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType, setIsReviewer} from './Variables.js';
 import Input from '@mui/material/Input';
 
 
@@ -30,6 +30,7 @@ const LoginModalNew = ({loginModalOff, signUpModalOn}) => {
             setIdType(data[1]['id_name'])
             setPersonId(data[2]['person_id'])
             setUsername(data[3]['name'])
+            setIsReviewer(data[4]['is_reviewer'])
             return true
         } catch (error) {
             console.log(error)
