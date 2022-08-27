@@ -326,10 +326,12 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                             }
 
                             <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right',}} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-                      
+
+                                { getIdType() === 'psychiatrist_id' ?
                                 <MenuItem key="Profile" onClick={ () => {handleCloseUserMenu(); navigate("/edit_profile")} }>
                                     <Typography textAlign="center">Profile</Typography>
-                                </MenuItem>
+                                </MenuItem> : <></>
+                                    }
                                 <MenuItem key="Logout" onClick={() => {handleCloseUserMenu(); setLogoutModalActive(true); }}>
                                     <Typography textAlign="center">Logout</Typography>
                                 </MenuItem>

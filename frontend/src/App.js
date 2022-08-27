@@ -62,6 +62,10 @@ function App() {
         return <AddOrDeleteQues testID={useParams().testID} />
     }
 
+    function RenderProfile() {
+        return <EditProfile id={useParams().id} />
+    }
+
     function RenderAddQuestion () {
         return <AddQuestion testID={useParams().testID} />
     }
@@ -122,10 +126,9 @@ function App() {
                     <Route path="/trends" element={<Trends />} />
                     <Route path="/list_appointment_requests" element={<ListAppointments type="pending" />} />
 
-                    <Route path="/profile/" element={<EditProfile id={1705045} />} />
+                    <Route path="/profile/:id" element={<RenderProfile />} />
 
                 </Routes>
-
                     </div>
                 <Footer/>
             </div>
