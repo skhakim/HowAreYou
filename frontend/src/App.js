@@ -27,6 +27,7 @@ import ListQuesUpdates from "./components/ListQuesUpdates";
 import LoginModalNew from './components/LoginModalNew';
 import ListFileRequests from "./components/ListFileRequests";
 import ListPsySignups from "./components/ListPsySignups";
+import ListAppointments from "./components/ListAppointments";
 
 
 
@@ -114,6 +115,7 @@ function App() {
 
                     <Route path="/det/:testID/:quesID/:mode" element={<RenderDetailedQuesRequest />} />
 
+                    <Route path="/list_appointments" element={<ListAppointments />} />
 
 
                 </Routes>

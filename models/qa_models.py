@@ -85,5 +85,5 @@ class ConsultationRequest(db.Model):
     schedule = db.Column(db.String(256))
     method = db.Column(db.String(64))
     fee = db.Column(db.Integer)
-
+    con_time = db.Column(db.DateTime)
 

@@ -19,7 +19,7 @@ const PsyHome = () => {
             <span className={styles.testName} onClick={() => navigate('/create_file_request')}>Request File From Patients</span>
             <hr className={styles.linePsy}></hr>
 
-            <span className={styles.testName} onClick={() => navigate('/')}>Pending Consultation Request</span>
+            <span className={styles.testName} onClick={() => navigate('/list_appointments')}>Accepted Consultation Requests</span>
             <hr className={styles.linePsy}></hr>
 
             {getIsReviewer() === 'true' ? <>
