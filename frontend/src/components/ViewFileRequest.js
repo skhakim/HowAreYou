@@ -114,11 +114,11 @@ export function ApproveFileRequest(props) {
             <br/>
 
             <div className='done-btn2' onClick={() => approveFR(props.frID)}>
-                Approve
+                🆗 Approve
             </div>
 
             <div className='done-btn2' onClick={() => rejectFR(props.frID)}>
-                Decline
+                ❌ Decline
             </div>
         </div>
     )

@@ -22,6 +22,9 @@ const PsyHome = () => {
             <span className={styles.testName} onClick={() => navigate('/list_appointments')}>Accepted Consultation Requests</span>
             <hr className={styles.linePsy}></hr>
 
+            <span className={styles.testName} onClick={() => navigate('/list_appointment_requests')}>Pending Consultation Requests</span>
+            <hr className={styles.linePsy}></hr>
+
             {getIsReviewer() === 'true' ? <>
             <span className={styles.testName} onClick={() => navigate('/list_psych_signup_req')}>Review Psychiatrist Sign-up Requests</span>
             <hr className={styles.linePsy}></hr>

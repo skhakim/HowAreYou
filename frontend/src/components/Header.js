@@ -64,6 +64,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
     const [requestList, setRequestList] = useState([])
     const [patientNotifications, setPatientNotifications] = useState([])
 
+    const [noNotifications, setNoNotifications] = useState(0)
     //const [isPatient, setIsPatient] = useState(false)
 
     const [loginModalActive, setLoginModalActive] = useState(false);
@@ -128,15 +129,16 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
     }
 
     const fetchConsulationRequestPatient = async () => {
-        const data = await fetch('/consultation_requests', {
+        const res = await fetch('/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'x-access-token': localStorage.getItem('token')
             }
-        }).then(res => res.json())
-        //const data = await res.json()
-        return data
+        })
+        const data = await res.json()
+        console.log(res)
+        return data.notifications
     }
 
 
@@ -284,23 +286,28 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                                             {showNotificationList ? 
                                                 (
                                                     <>
-                                                        <IconButton size="large" aria-label="new notifications" color="inherit" onClick={() => {setShowNotificationList(true)}} sx={{bgcolor:"#b5b5b5"}}>
-                                                            <Badge badgeContent={17} color="error">
+                                                        <IconButton size="large" aria-label="new notifications" color="inherit" onClick={() => {setShowNotificationList(false)}} sx={{bgcolor:"#b5b5b5"}}>
+                                                            <Badge badgeContent={noNotifications} color="error">
                                                                 <NotificationsIcon color='secondary' />
                                                             </Badge>
+                                                            {console.log(noNotifications)}
                                                         </IconButton>
                                                     </>
                                                 ): 
                                                 (
                                                     <>
                                                         <IconButton size="large" aria-label="new notifications" color="inherit" onClick={() => {setShowNotificationList(true)}}>
-                                                            <Badge badgeContent={17} color="error">
+                                                            <Badge badgeContent={noNotifications} color="error">
                                                                 <NotificationsIcon color='secondary' />
+                                                                {console.log(noNotifications)}
                                                             </Badge>
                                                         </IconButton>
                                                     </>
                                                 )
                                             }
+
+
+                                            {/*{console.log(noNotifications)}*/}
                                             
                                         </Tooltip>
 
@@ -354,7 +361,8 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
 
             {
                 showNotificationList && (
-                    <NotificationModal notificationModalOff={() => {setShowNotificationList(false)}} />
+                    <NotificationModal notificationModalOff={() => {setShowNotificationList(false)}}
+                        setNumber={setNoNotifications}/>
                 )
             }
 
@@ -431,7 +439,6 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                     </div>
                 )
             }
-
             {/* {
                 showNotoficationList && (
                     <div className='modal1'>
@@ -455,6 +462,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                     </div>
                 )
             } */}
+
         </>
 
     )

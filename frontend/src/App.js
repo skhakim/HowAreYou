@@ -116,6 +116,7 @@ function App() {
                     <Route path="/det/:testID/:quesID/:mode" element={<RenderDetailedQuesRequest />} />
 
                     <Route path="/list_appointments" element={<ListAppointments />} />
+                    <Route path="/list_appointment_requests" element={<ListAppointments type="pending" />} />
 
 
                 </Routes>

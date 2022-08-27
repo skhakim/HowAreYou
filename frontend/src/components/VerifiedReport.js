@@ -262,8 +262,8 @@ const VerifiedReports = () => {
                                         (
                                             <div>
                                                 <br /><br />
-                                                <b>Initial query result:</b>
-                                                <div style={{"margin-left":"3%"}}>{verifiedReport.systemScore}</div><br />
+                                                {/*<b>Initial query result:</b>*/}
+                                                {/*<div style={{"margin-left":"3%"}}>{verifiedReport.systemScore}</div><br />*/}
 
                                                 <b>Suggestions:</b>
                                                 <div style={{"margin-left":"3%", "word-wrap":"break-word"}}>{verifiedReport.manual_report}</div><br />

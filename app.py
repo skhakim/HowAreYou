@@ -22,7 +22,7 @@ cors = CORS(app)
 Session(app)
 
 # Create the database tables.
-# db.create_all()
+db.create_all()
 
 
 @app.route('/')

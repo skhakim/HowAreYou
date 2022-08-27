@@ -73,7 +73,14 @@ def upload_a_file(_, frID):
     )
     db.session.add(file_upload)
     db.session.commit() # commit the file upload
-    return "OK"
+
+    file_req = FileRequest.query.filter_by(file_request_id=frID).first()
+    psychiatrist_id = file_req.psychiatrist_id # get psychiatrist id
+    notification = Notification(type='U', person_id = psychiatrist_id,
+                                desc = 'A patient has uploaded file(s) against your file request titled ' +  file_req.title)
+    db.session.add(notification)
+    db.session.commit()
+    return jsonify({'message': 'File uploaded successfully!'})
 
 
 @app.route('/vfu/<int:frID>')

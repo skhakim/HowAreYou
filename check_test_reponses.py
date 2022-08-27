@@ -1,18 +1,20 @@
 # from unittest import TestResult
 from email.policy import default
+
+from sqlalchemy import desc
 from sqlalchemy.orm import aliased
 from models.export import *
 from flask import request
 import jwt
 from app import app, db
 from check_test_reponses_controller import *
-from authentication_controller import psychiatrist_token_required, patient_token_required
+from authentication_controller import psychiatrist_token_required, patient_token_required, token_required
 from datetime import datetime, timedelta
 import random
 from pseudonym_generator import get_pseudonym
 
+date_map = {'Monday:': 0, 'Tuesday:': 1, 'Wednesday:': 2, 'Thursday:': 3, 'Friday:': 4, 'Saturday:': 5, 'Sunday:': 6}
 
-date_map = {'Monday:' : 0, 'Tuesday:' : 1, 'Wednesday:' : 2, 'Thursdsay:' : 3, 'Friday:' : 4, 'Saturday:' : 5, 'Sunday:' : 6}
 
 @app.route('/pd/<int:_id>', methods=['GET'])
 def psychiatrist_details(_id):
@@ -38,11 +40,9 @@ def psychiatrist_details(_id):
     return jsonify(ret)  # psychiatrist.to_json()
 
 
-def next_day(weekday, given_date = datetime.now()):
+def next_day(weekday, given_date=datetime.now()):
     day_shift = (weekday - given_date.weekday()) % 7
     return given_date + timedelta(days=day_shift)
-
-
 
 
 @app.route('/make_consul_request', methods=['POST'])
@@ -53,13 +53,25 @@ def make_consul_request(_):
     _ = data['schedule'].split(" ")
     date = date_map[_[0]]
     print(int(_[1]) + 0 if (_[2] == 'AM') else 12)
+    con_time = next_day(date).replace(hour=int(_[1]) + (0 if (_[2] == 'AM') else 12), minute=0, second=0,
+                                        microsecond=0)
     consultation_request = ConsultationRequest(
         counsel_id=data['counsel_id'],
         test_result_id=data['test_result_id'],
         schedule=data['schedule'],
-        con_time=next_day(date).replace(hour=int(_[1]) + (0 if (_[2] == 'AM') else 12), minute=0, second=0, microsecond=0),
+        con_time=con_time,
     )
     db.session.add(consultation_request)
+    db.session.commit()
+
+    pq = db.session.query(CounsellingSuggestion).filter(CounsellingSuggestion.c.counsel_id == data['counsel_id'])
+    pq = db.session.execute(pq).first()
+    psychiatrist_id = pq[2]
+    print(psychiatrist_id)
+    notification = Notification(type='C', person_id=psychiatrist_id,
+                                desc='A patient has asked for a consultation at ' + data['schedule'])
+
+    db.session.add(notification)
     db.session.commit()
     return "OK"
 
@@ -103,6 +115,14 @@ def submit_response(_, test_response_id):
     for idx, _ in psy_suggestions:
         stmt = CounsellingSuggestion.insert().values(test_result_id=test_response_id, psychiatrist_id=idx)
         db.session.execute(stmt)
+
+    print(test_response_id)
+
+    verifier = Psychiatrist.query.filter_by(psychiatrist_id=test_result.verifier_id).first()
+    test = Test.query.filter_by(test_id=test_result.test_id).first()
+    _not = Notification(type='V', desc='Dr. ' + verifier.name + ' has verified your report for ' + test.name, person_id=test_result.patient_id)
+    db.session.add(_not)
+
     db.session.commit()
 
     return jsonify({"response": 'success'})
@@ -191,19 +211,22 @@ def view_consultation_request(_):
                                               consultation_requests]})
 
 
-@app.route('/view_appointments/', methods=['GET'])
+@app.route('/view_appointments/<string:st>', methods=['GET'])
 @psychiatrist_token_required
-def view_appointments(_):
+def view_appointments(_, st=''):
     token = request.headers['x-access-token']
     data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
     # get all approved consultation requests for this psychiatrist
+    print("ST:", st)
     consultation_requests = db.session.query(ConsultationRequest, CounsellingSuggestion) \
         .join(CounsellingSuggestion, CounsellingSuggestion.c.counsel_id == ConsultationRequest.counsel_id) \
-        .filter(CounsellingSuggestion.c.psychiatrist_id == data['psychiatrist_id'])\
-        .filter(ConsultationRequest.approved).all()
+        .filter(CounsellingSuggestion.c.psychiatrist_id == data['psychiatrist_id']) \
+        .filter(ConsultationRequest.approved != (st == 'pending')).all()
+
 
     return jsonify({"consultation_requests": [{"id": x[0].consultation_request_id,
-                                               "sched": x[0].schedule, "time": str(x[0].con_time),  "mode": x[0].method, "fee": x[0].fee,
+                                               "sched": x[0].schedule, "time": str(x[0].con_time), "mode": x[0].method,
+                                               "fee": x[0].fee,
 
                                                "info": x[0].info, "name": get_pseudonym()} for x in
                                               consultation_requests]})
@@ -216,6 +239,19 @@ def accept_consultation_request(_, consultation_id):
     consultation_request = ConsultationRequest.query.filter_by(consultation_request_id=consultation_id).first()
     consultation_request.approved = True
     db.session.commit()
+
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    name = Psychiatrist.query.filter_by(person_id=data['psychiatrist_id']).first().name # get name of psychiatrist
+    patient_id = TestResult.query.filter_by(test_result_id=consultation_request.test_result_id).first().patient_id # get patient id
+    # send notification to patient
+    notification = Notification(person_id=patient_id,
+                                type='A',
+                                desc=f'Dr. {name} has accepted your consultation request at '
+                                                     f'{str(consultation_request.con_time)}')
+    db.session.add(notification)
+    db.session.commit()
+
     return jsonify({"response": 'success'})
 
 
@@ -224,6 +260,16 @@ def accept_consultation_request(_, consultation_id):
 def delete_consultation_request(_, consultation_id):
     # update consultation request
     consultation_request = ConsultationRequest.query.filter_by(consultation_request_id=consultation_id).first()
+
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    name = Psychiatrist.query.filter_by(person_id=data['psychiatrist_id']).first().name
+    patient_id = TestResult.query.filter_by(test_result_id=consultation_request.test_result_id).first().patient_id # get patient id
+    notification = Notification(person_id=patient_id,
+                                type='D',
+                                desc=f'Dr. {name} has declined your consultation request at '
+                                     f'{str(consultation_request.con_time)}')
+    db.session.add(notification)
     db.session.delete(consultation_request)
     db.session.commit()
     return jsonify({"response": 'success'})
@@ -258,5 +304,46 @@ def get_consultation_requests(_):
         .filter(Person.person_id == data['patient_id']).filter(ConsultationRequest.approved).all()
 
     return jsonify({"consultation_requests": [{"id": x[0].consultation_request_id,
-                                               "time": x[0].schedule, "text": "Doctor " + x[-1].name + " has accepted your consultation request." } for x in consultation_requests]})
+                                               "time": x[0].schedule, "text": "Doctor " + x[
+            -1].name + " has accepted your consultation request."} for x in consultation_requests]})
+
+
+@app.route('/view_notifications/', methods=['GET'])
+@token_required
+def get_notifications(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    person_id = data['patient_id'] if 'patient_id' in data else data['psychiatrist_id']
+    notifications = db.session.query(Notification).filter_by(person_id=person_id).order_by(Notification.seen).all()
+    number_unseen_notifications = len(db.session.query(Notification).filter_by(person_id=person_id, seen=False).all())
+    ret = ({"notifications": [{"id": x.notification_id, "from": x.type, "text": x.desc, "seen": x.seen} for x in
+                              notifications], "number" : number_unseen_notifications})
+    # for x in notifications:
+    #     x.seen = True
+    # db.session.commit()
+    print(ret)
+    return jsonify(ret)
+
+
+@app.route('/mark_notifications/', methods=['POST'])
+@token_required
+def mark_notifications(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    person_id = data['patient_id'] if 'patient_id' in data else data['psychiatrist_id']
+    notifications = db.session.query(Notification).filter_by(person_id=person_id).order_by(Notification.seen).all()
+    for x in notifications:
+        x.seen = True
+    db.session.commit()
+    return jsonify({"response": "success"})
+
+
+@app.route('/no_notifications/', methods=['GET'])
+@token_required
+def no_unseen_notifications(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    person_id = data['patient_id'] if 'patient_id' in data else data['psychiatrist_id']
+    notifications = db.session.query(Notification).filter_by(person_id=person_id).filter(Notification.seen == False).all()
+    return jsonify({"count": len(notifications)})
 
