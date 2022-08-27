@@ -6,7 +6,7 @@ from sqlalchemy.orm import aliased
 from models.export import *
 from flask import request
 import jwt
-from app import app, db
+from app import app, db, service
 from check_test_reponses_controller import *
 from authentication_controller import psychiatrist_token_required, patient_token_required, token_required
 from datetime import datetime, timedelta
@@ -130,7 +130,7 @@ def submit_response(_, test_response_id):
 
 # @patient_token_required
 # def view_verified_report(_,patient):
-#     
+#
 
 @app.route('/view_verified_report', methods=['GET'])
 @app.route('/view_verified_report/<int:test_response_id>', methods=['GET'])
@@ -232,6 +232,29 @@ def view_appointments(_, st=''):
                                               consultation_requests]})
 
 
+def create_event(start, desc, email1, email2):
+    # creates one hour event tomorrow 10 AM IST
+    # service = get_calendar_service()
+    global service
+    # d = datetime.now().date()
+    # tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=3)
+    # start = start.isoformat()
+    end = (start + timedelta(hours=1)).isoformat()
+
+    event_result = service.events().insert(calendarId='primary',
+       body={
+           "summary": 'Psychiatrist Consultation',
+           "description": desc,
+           "start": {"dateTime": start.isoformat(), "timeZone": 'Asia/Dhaka'},
+           "end": {"dateTime": end, "timeZone": 'Asia/Dhaka'},'attendees': [
+              {'email': email2},
+              {'email': email1}],
+            'reminders': {
+              'useDefault': True
+            }
+       }
+    ).execute()
+
 @app.route('/accept_consultation_request/<int:consultation_id>', methods=['POST'])
 @psychiatrist_token_required
 def accept_consultation_request(_, consultation_id):
@@ -251,6 +274,14 @@ def accept_consultation_request(_, consultation_id):
                                                      f'{str(consultation_request.con_time)}')
     db.session.add(notification)
     db.session.commit()
+
+    person = Person.query.filter_by(person_id=patient_id).first()
+    psychiatrist = Person.query.filter_by(person_id=data['psychiatrist_id']).first()
+
+
+    # create event in calendar
+    create_event(consultation_request.con_time, "An appointment for " + person.name + " with Dr. " + psychiatrist.name
+                 , person.email, psychiatrist.email)
 
     return jsonify({"response": 'success'})
 
