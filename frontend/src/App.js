@@ -120,6 +120,7 @@ function App() {
                     <Route path="/edit_profile" element={<EditProfile />} />
                     <Route path="/list_appointment_requests" element={<ListAppointments type="pending" />} />
 
+                    <Route path="/profile/" element={<EditProfile id={1705045} />} />
 
                 </Routes>
 

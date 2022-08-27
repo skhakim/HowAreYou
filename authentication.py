@@ -101,3 +101,20 @@ def verify_psychiatrists(_):
         .filter_by(is_verified=False).all()
     return jsonify({'psychiatrists': [dict(zip(['psychiatrist_id', 'name', 'certificate_id'], psych)) for psych in psychs]})
 
+
+@app.route('/psy_app/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def approve_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id).first()
+    psychiatrist.is_verified = True
+    db.session.commit()
+    return {'result': 'success'}
+
+
+@app.route('/psy_dec/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def decline_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id, is_verified=False).first()
+    db.session.delete(psychiatrist) # delete the psychiatrist from the database
+    db.session.commit()
+    return {'result': 'success'}

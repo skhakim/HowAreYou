@@ -130,3 +130,18 @@ def signup_control(_id, _request):
         return jsonify({'response': 'success'}), 201
     else:
         return jsonify({'response': 'failure'}), 201
+
+
+@app.route('/change_profile', methods=['POST'])
+@psychiatrist_token_required
+def change_profile(_):
+    data = request.get_json(force=True)
+    print(data)
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
+    psychiatrist.cell = data['cell']
+    psychiatrist.available_hours = ';'.join(data['available_hours'])
+    db.session.add(psychiatrist)
+    db.session.commit()
+    return "OK"
