@@ -16,7 +16,7 @@ class Test(db.Model):
     name = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, nullable=False)
-    is_approved = db.Column(db.Boolean, default=False)
+    # is_approved = db.Column(db.Boolean, default=False)
     questions = db.relationship('Question', secondary=TestQuestion, lazy='subquery'
                                 , backref=db.backref('tests', lazy=True))
 

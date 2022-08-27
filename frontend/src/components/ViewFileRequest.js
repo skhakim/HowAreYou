@@ -79,6 +79,9 @@ export function ApproveFileRequest(props) {
         const data = await res.json()
         if(data['response'] === 'success') {
             alert("Successfully approved")
+            navigate('/psyhome')
+        } else {
+            alert('Please try again')
         }
         return data
     }
@@ -94,6 +97,9 @@ export function ApproveFileRequest(props) {
         const data = await res.json()
         if(data['response'] === 'success') {
             alert("Successfully rejected")
+            navigate('/psyhome')
+        } else {
+            alert('Please try again')
         }
         return data
     }

@@ -22,14 +22,12 @@ const PsyHome = () => {
             <span className={styles.testName} onClick={() => navigate('/')}>Pending Consultation Request</span>
             <hr className={styles.linePsy}></hr>
 
-            {console.log(getIsReviewer())}
-            {console.log(getIsReviewer() == true)}
             {getIsReviewer() === 'true' ? <>
-            <span className={styles.testName} onClick={() => navigate('/')}>Review Psychiatrist Sign-up Requests</span>
+            <span className={styles.testName} onClick={() => navigate('/list_psych_signup_req')}>Review Psychiatrist Sign-up Requests</span>
             <hr className={styles.linePsy}></hr>
-            <span className={styles.testName} onClick={() => navigate('/')}>Review Questionnaire Update Requests</span>
+            <span className={styles.testName} onClick={() => navigate('/list_ques_upd')}>Review Questionnaire Update Requests</span>
             <hr className={styles.linePsy}></hr>
-            <span className={styles.testName} onClick={() => navigate('/')}>Review File Update Requests</span>
+            <span className={styles.testName} onClick={() => navigate('/list_files_req')}>Review File Upload Requests</span>
             <hr className={styles.linePsy}></hr> </> : <></> }
         </div>
     )

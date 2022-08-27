@@ -85,7 +85,7 @@ def download_files(frID):
 
 
 @is_review_board_member
-@app.route('/app_fr/<int:frID>')
+@app.route('/app_fr/<int:frID>', methods=['POST'])
 def approve_file_request(frID):
     fr = FileRequest.query.filter_by(file_request_id=frID).first()
     fr.is_verified = True
@@ -102,3 +102,11 @@ def delete_file_request(frID):
     return jsonify({'response': 'success'})
 
 
+@app.route('/fileReviewRequests', methods=['GET'])
+@is_review_board_member
+def get_file_review_requests(_):
+    file_requests = db.session.query(FileRequest).filter_by(is_verified=False).all()
+    # print(file_requests[0])
+    return jsonify({"file_requests":
+                    [{"id": x.file_request_id, "title": x.title, "desc": x.description, "psy_id": x.psychiatrist_id} for x in file_requests]
+                    })

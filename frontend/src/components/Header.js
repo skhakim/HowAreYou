@@ -257,13 +257,19 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                             LOGO
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml:10 }}>             
-                            <Button key="PRODUCTS" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                            <Button key="PRODUCTS" onClick={() => {
+                                handleCloseNavMenu();
+                                getIdType() === 'psychiatrist_id' ? navigate('/psyhome') : navigate('/tests')}
+                            } sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 Home
                             </Button>
                             <Button key="PRICING" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 Trends
                             </Button>
-                            <Button key="BLOG" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                            <Button key="BLOG" onClick={() => {
+                                handleCloseNavMenu();
+                                navigate('/')
+                            }} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 About Us
                             </Button>
             

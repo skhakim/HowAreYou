@@ -92,3 +92,12 @@ def print_info():
 
     """
     return 'Hello, world!'
+
+
+@app.route('/psy_not_app', methods=['GET'])
+@is_review_board_member
+def verify_psychiatrists(_):
+    psychs = Psychiatrist.query.with_entities(Psychiatrist.psychiatrist_id, Psychiatrist.name, Psychiatrist.certificate_id)\
+        .filter_by(is_verified=False).all()
+    return jsonify({'psychiatrists': [dict(zip(['psychiatrist_id', 'name', 'certificate_id'], psych)) for psych in psychs]})
+

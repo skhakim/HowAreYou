@@ -25,6 +25,8 @@ import AddQuestion from "./components/AddQuestion";
 import DetailedQuesRequest from "./components/DetailedQuesRequest";
 import ListQuesUpdates from "./components/ListQuesUpdates";
 import LoginModalNew from './components/LoginModalNew';
+import ListFileRequests from "./components/ListFileRequests";
+import ListPsySignups from "./components/ListPsySignups";
 
 
 
@@ -85,6 +87,7 @@ function App() {
                     <Route path="/login2" element={<LoginModalNew />} />
 
                     <Route path="/logout" element={<LogoutModal changeLogoutModalFn={() => changeLogoutModal(false)}/>}/>
+                    <Route path="/list_psych_signup_req" element={<ListPsySignups />} />
 
                     <Route path="/tests" element={<Tests/>}/>
                     <Route path="/tests/:testId" element={<RenderTest/>} />
@@ -99,6 +102,7 @@ function App() {
                     <Route path="/create_file_request" element={<CreateFileRequest />} />
                     <Route path="/approved_file_requests" element={<ApprovedFileRequests />} />
                     <Route path="/file_request/:frID" element={<RenderFileRequest />} />
+                    <Route path="/list_files_req" element={<ListFileRequests />} />
                     <Route path="/review_file_request/:frID" element={<RenderReviewFileRequest />} />
 
                     {/*<Route path="/upl" element={<Upload/>} />*/}

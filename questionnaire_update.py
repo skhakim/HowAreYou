@@ -64,7 +64,8 @@ def get_all_questions(_, test_id):
 @psychiatrist_token_required
 def delete_question(_, test_id, q_id):
     stmt = TestQuestion.update().where(TestQuestion.c.test_id == test_id) \
-        .where(TestQuestion.c.question_id == q_id).values(pending_delete=True, delete_reasoning=request.get_json()['reasoning'])
+        .where(TestQuestion.c.question_id == q_id).values(pending_delete=True,
+                                                          delete_reasoning=request.get_json()['reasoning'])
     db.session.execute(stmt)
     db.session.commit()
     return jsonify({"response": 'success'})
@@ -93,13 +94,13 @@ def reject_question(_, test_id, q_id):
     db.session.execute(stmt)
     db.session.commit()
     if db.session.query(TestQuestion).filter_by(question_id=q_id).first() is None:
-        q = Question.query.filter_by(question_id=q_id).delete()
-        db.session.commit()
         db.session.query(Option).filter(Option.question_id == q_id).delete()
+        db.session.commit()
+        q = Question.query.filter_by(question_id=q_id).delete()
         db.session.commit()
         return jsonify({"response": 'success'})
     else:
-        return jsonify({"response": 'Quetion has no pending approval'})
+        return jsonify({"response": 'Question has no pending approval'})
 
 
 @app.route('/approve_delete_question/<test_id>/<q_id>', methods=['POST'])
@@ -110,10 +111,9 @@ def approve_delete_question(_, test_id, q_id):
     out = db.session.execute(stmt)
     db.session.commit()
     if db.session.query(TestQuestion).filter_by(question_id=q_id).first() is None:
-        q = Question.query.filter_by(question_id=q_id).delete()
-        db.session.commit()
-
         Option.query.filter_by(question_id=q_id).delete()
+        db.session.commit()
+        q = Question.query.filter_by(question_id=q_id).delete()
         db.session.commit()
         return jsonify({"response": 'success'})
     else:
@@ -134,12 +134,18 @@ def reject_delete_question(_, test_id, q_id):
 @app.route('/quesReviewRequests', methods=['GET'])
 @is_review_board_member
 def get_ques_review_requests(_):
-    questions = db.session.query(TestQuestion, Test).filter_by(test_id = TestQuestion.c.test_id).filter_by(is_approved=False).all()
-    del_questions = db.session.query(TestQuestion, Test).filter_by(test_id = TestQuestion.c.test_id).filter_by(pending_delete=True).all()
-    file_requests = db.session.query(FileRequest).filter_by(is_verified=False).all()
-    #print(file_requests[0])
-    return jsonify({"questions":
-                    [{"id": x.file_request_id, "testName": x.title, "mode": "file request"} for x in file_requests]
-                    + [{"id": x[1], "testId": x[0], "testName": x[-1].name, "mode": "add"} for x in questions]
-                    + [{"id": x[1], "testId": x[0], "testName": x[-1].name, "mode": "delete", "reasoning": x[4]} for x in del_questions]})
-
+    questions = db.session.execute('SELECT t.test_id, question_id, t.name '
+                                   'FROM test_question INNER JOIN tests t on t.test_id = test_question.test_id '
+                                   'WHERE test_question.is_approved = false')
+    del_questions = db.session.execute('SELECT t.test_id, question_id, t.name, delete_reasoning '
+                                        'FROM test_question INNER JOIN tests t on t.test_id = test_question.test_id '
+                                        'WHERE test_question.pending_delete = true')
+    # file_requests = db.session.query(FileRequest).filter_by(is_verified=False).all()
+    # print(file_requests[0])
+    res = ({"questions":
+                    # [{"id": x.file_request_id, "testName": x.title, "mode": "file request"} for x in file_requests]
+                        [{"id": x[1], "testId": x[0], "testName": x[2], "mode": "add"} for x in questions]
+                        + [{"id": x[1], "testId": x[0], "testName": x[2], "mode": "delete", "reasoning": x[3]} for
+                           x in del_questions]})
+    print(res)
+    return jsonify(res)

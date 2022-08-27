@@ -3,7 +3,7 @@ import "./ScoreNDResponse.css"
 import { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom";
 
-const ListQuesUpdates = () => {
+const ListFileRequests = () => {
     const navigate = useNavigate();
     const [requests, setRequests] = useState([])
 
@@ -11,13 +11,13 @@ const ListQuesUpdates = () => {
         const getRequests = async () => {
             const responsesFromServer = await fetchRequests()
             console.log(responsesFromServer)
-            setRequests(responsesFromServer.questions)
+            setRequests(responsesFromServer.file_requests)
         }
         getRequests()
     }, [])
     
     const fetchRequests = async () => {
-        const res = await fetch('/quesReviewRequests', {
+        const res = await fetch('/fileReviewRequests', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,9 +39,7 @@ const ListQuesUpdates = () => {
                 <thead>
                 <tr>
                 <th>Test Name</th>
-                {/*<th>Requested By</th>*/}
-                <th>Mode</th>
-                <th>Response</th>
+                <th>See Details</th>
                 </tr>
                 </thead>
 
@@ -50,12 +48,10 @@ const ListQuesUpdates = () => {
                     requests.map(
                     (request) => (
                         <tr>
-                        <td>{request.testName}</td>
+                        <td>{request.title}</td>
                         {/*<td>{request.requestBy}</td>*/}
-                        <td>{request.mode}</td>
-                            {console.log(request.testId, request.id, request.mode)}
                         <td><div className='response-text'
-                                 onClick={()=>navigate('/det/' + request.testId + '/' + request.id + '/' + request.mode)}>
+                                 onClick={()=>navigate('/review_file_request/' + request.id)}>
                             See Request</div></td><br/> <br/>
                         </tr>
                     )
@@ -69,4 +65,4 @@ const ListQuesUpdates = () => {
     )
 }
 
-export default ListQuesUpdates
+export default ListFileRequests

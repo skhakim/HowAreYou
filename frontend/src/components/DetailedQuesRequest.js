@@ -3,10 +3,12 @@ import "./DetailedQuesReview.css"
 import "./ShowResponse.css"
 import {useState, useEffect} from "react";
 import {getToken} from "./Variables";
+import {useNavigate} from "react-router-dom";
 
 const DetailedQuesRequest = (props) => {
 
     const [requestDetails, setRequestDetails] = useState([])
+    const navigate = useNavigate()
 
     useEffect( () => {
         const getRequests = async (quesID, testID) => {
@@ -55,6 +57,7 @@ const DetailedQuesRequest = (props) => {
         const data = await res.json()
         if(data['response'] === 'success') {
             alert("Successfully approved")
+            navigate('/psyhome')
         }
         return data
     }
@@ -72,7 +75,8 @@ const DetailedQuesRequest = (props) => {
         const data = await res.json()
         if(data['response'] === 'success') {
             alert("Successfully rejected")
-        }
+            navigate('/psyhome')
+         }
         return data
     }
 
@@ -129,7 +133,7 @@ const DetailedQuesRequest = (props) => {
                                 </div>
 
                                 <div className='done-btn2' onClick={() => rejectQuestion(props.quesID, props.testID)}>
-                                    Decline (not functional yet)
+                                    Decline
                                 </div>
 
                             </div>
@@ -138,8 +142,6 @@ const DetailedQuesRequest = (props) => {
                     )
                 )
             }
-            
-            
 
         </div>
     )
