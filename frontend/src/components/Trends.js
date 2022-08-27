@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+
 import styles from "./newCss/Trends.module.css"
 import {
     Chart as ChartJS,
@@ -25,6 +26,8 @@ const Trends = () => {
 
     //Remove these variables
 
+    const [set, isSet] = useState(false);
+
     const labels = []
     const dataPoint = []
     for (let i = 0; i < 30; i++) {
@@ -36,16 +39,18 @@ const Trends = () => {
 
     // const colors = []
 
-    const dataFromServer = {
+    const [dataFromServer, setDataFromServer] = useState ({
         "totalResponseLabel" : labels,
         "totalResponseData":dataPoint,
         "detectedLabel" : labels2,
         "detectedData" : dataPoint2
+    })
+
+    const fetchFromServer = async () => {
+        const response = await fetch("/trends")
+        const data = await response.json()
+        setDataFromServer(data)
     }
-
-
-
-
 
 
 
@@ -97,14 +102,6 @@ const Trends = () => {
     };
 
 
-
-
-
-
-
-
-
-
     const options2 = {
         responsive: true,
 
@@ -130,7 +127,7 @@ const Trends = () => {
             x: {
                 ticks: {
                     font: {
-                        size: 20,
+                        size: 16,
                     }
                 }
             }
@@ -160,8 +157,13 @@ const Trends = () => {
         ],
     };
 
+    if(!set)
+        fetchFromServer().then(() => isSet(true))
+
     return (
         <div style={{marginTop:"3%"}}>
+
+            {/*<button onClick={()=>fetchFromServer()}>hfh</button>*/}
             
             <div className={styles.trendHeader}>
                 <div style={{width:"48%", textAlign:"center", marginBottom:"2%"}}>
@@ -174,11 +176,11 @@ const Trends = () => {
             </div>
 
             <div style={{display:"flex"}}>
-                <div style={{width:"40%", marginLeft:"5%"}}>
+                <div style={{width:"37%", marginLeft:"5%"}}>
                     <Bar options={options} data={data} />
                 </div>
 
-                <div style={{width:"40%", marginLeft:"5%"}}>
+                <div style={{width:"43%", marginLeft:"5%"}}>
                     <Bar options={options2} data={data2} />
                 </div>
                 
