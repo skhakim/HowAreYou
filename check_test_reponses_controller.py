@@ -8,7 +8,8 @@ from multidict import MultiDict
 def fetch_test_responses():
     result = db.session.execute("""SELECT tests.name AS test_name, persons.name AS patient_name, tr.score, tr.test_result_id 
     FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
-        INNER JOIN persons ON persons.person_id = tr.patient_id""")
+        INNER JOIN persons ON persons.person_id = tr.patient_id
+        WHERE tr.verifier_id IS NULL""")
     result = [dict(x) for x in result.mappings().all()]
     for res in result:
         res['patient_name'] = pseudonym_generator.get_pseudonym()

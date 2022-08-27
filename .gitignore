@@ -3,3 +3,4 @@ __pycache__/
 venv/
 fr_end/node_modules/
 node_modules/
+/token.json

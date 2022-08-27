@@ -32,7 +32,7 @@ const ListPsySignups = () => {
     return (
         <div className='container'>
 
-            <div className='test-name'>Questionnaire Update Requests</div>
+            <div className='test-name'>Psychiatrist Signup Requests</div>
             <hr className='line-psy'></hr>
             
 

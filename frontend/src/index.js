@@ -8,7 +8,6 @@ import {clearAll} from "./components/Variables";
 import ShowResponse from "./components/ShowResponse";
 import ScoreNDResponse from "./components/ScoreNDResponse";
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
