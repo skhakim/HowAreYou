@@ -38,7 +38,7 @@ export const Upload = (props) => {
             await axios.post('/upload/' + props.frID, formData, {headers:{
                 'content-type': 'multipart/form-data',
                 'x-access-token': getToken()
-            }});
+            }}).then(() => {alert('File uploaded successfully!'); console.log("Okay")});
         } catch (error) {
             console.error('Failed to submit files.');
         }
@@ -92,9 +92,9 @@ export const Upload = (props) => {
                     {
                         files.length > 0 && ( 
                             <div style={{display:"flex"}}>
-                                <Button sx={{mt:2, ml:8, bgcolor:"#e33232", "&:hover":{bgcolor:"#e01212"} }} variant="contained">
-                                    Remove Files
-                                </Button>
+                                {/*<Button sx={{mt:2, ml:8, bgcolor:"#e33232", "&:hover":{bgcolor:"#e01212"} }} variant="contained">*/}
+                                {/*    Remove Files*/}
+                                {/*</Button>*/}
 
                                 <Button onClick={handleSubmit} sx={{mt:2, ml:8, bgcolor:"#437838", "&:hover":{bgcolor:"#1c7a09"} }} variant="contained">
                                     Submit Files
@@ -118,7 +118,7 @@ export const Upload = (props) => {
             > */}
 
                 <div onDragEnter={handleDragDropEvent} onDragOver={handleDragDropEvent}  onDrop={(e) => {handleDragDropEvent(e);setFiles(e,'a');}} onClick={() => inputRef.current.click()} className='uploadHere'><FileUploadIcon sx={{fontSize:"6rem", mt:"15px", ml:"80px", color:"#1b5153", "&:hover":{color:"#044446", fontSize:"6.2rem", ml:"78px", mt:"5px"} }} /></div>
-                <div style={{fontSize:"1.1rem", marginLeft:"37%", marginTop:"10px"}}>Select or Drag File(s) to Upload Here.</div>
+                <div style={{fontSize:"1.1rem", marginLeft:"0.7%", marginTop:"10px"}}>Select or Drag File(s) to Upload Here.</div>
                 {/* <button onClick={() => inputRef.current.click()}>Or select files to upload</button> */}
 
                 {/* Hide the crappy looking default HTML input */}

@@ -87,3 +87,11 @@ class ConsultationRequest(db.Model):
     fee = db.Column(db.Integer)
     con_time = db.Column(db.DateTime)
 
+
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+    notification_id = db.Column(db.Integer, primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('persons.person_id'), nullable=False)
+    desc = db.Column(db.String(256))
+    seen = db.Column(db.Boolean, default=False)
+    type = db.Column(db.String(1))

@@ -129,11 +129,11 @@ const DetailedQuesRequest = (props) => {
                                 */}
 
                                 <div className='done-btn2' onClick={() => approveQuestion(props.quesID, props.testID)}>
-                                    Approve
+                                    🆗 Approve
                                 </div>
 
                                 <div className='done-btn2' onClick={() => rejectQuestion(props.quesID, props.testID)}>
-                                    Decline
+                                    ❌ Decline
                                 </div>
 
                             </div>

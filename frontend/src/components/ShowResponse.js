@@ -80,6 +80,7 @@ const ShowResponse = (props) => {
         // console.log({"test_result_id" : props.testResultId, "disorder" : responseDisorders, "comment" : comment })
         const data = await res.json()
         if (data["response"] === "success"){
+            alert("Report submitted successfully");
             navigate('/psyhome')
         }
         else{
