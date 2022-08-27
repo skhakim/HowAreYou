@@ -36,6 +36,15 @@ const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
         )
         const data = await res.json()
         console.log(data)
+
+        if(data['response'] == 'success') {
+            if(isPatient)
+                alert('Signup Successful')
+            else
+                alert('Your signup request will be checked by a review board member. Please keep waiting.')
+        } else if(data['response'] == 'failure') {
+            alert('Signup Unsuccessful')
+        }
     }
 
     const onSignUpSubmit = (e) => {

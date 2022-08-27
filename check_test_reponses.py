@@ -99,7 +99,7 @@ def submit_response(_, test_response_id):
 
     # Add Suggested Diagnosis & Find corresponding Expert
     for disease in request.json["disorder"]:
-        if request.json["disorder"][disease] == True:
+        if request.json["disorder"][disease]:
             disease_id = Disease.query.filter_by(name=disease).first().disease_id
             stmt = TestResultDisease.insert().values(test_result_id=test_response_id, disease_id=disease_id)
             db.session.execute(stmt)
