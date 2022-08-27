@@ -32,9 +32,10 @@ export function ViewFileRequest(props) {
 
     return (
         <div className='container'>
-            <div className='test-name'><h1>Title: {responses['title']}</h1></div>
+            <div style={{fontSize:"1.5rem", fontWeight:"500", color:"#02b6e8", textDecoration:"underline"}} ><b>Title: {responses['title']}</b></div>
             <br/>
-            <p> {responses['description']}</p>
+            <div style={{fontSize:"1.2rem", marginBottom:"20px"}}><b>Description</b></div>
+            <div style={{marginLeft:"40px"}}> {responses['description']}</div>
             <br/>
             <Upload frID={props.frID}/>
         </div>

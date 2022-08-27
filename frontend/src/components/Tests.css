@@ -49,3 +49,20 @@
 .spaced{
     margin-top: 10%;
 }
+
+
+.uploadHere{
+    margin-top: 2%;
+    height: 150px;
+    width: 20%;
+    margin-left: 40%;
+    background-color: #04cdd4;
+    border: 2px solid rgb(39, 40, 42);
+    border-radius: 10px;
+    /* background-color: #044446; */
+}
+.uploadHere:hover{
+    background-color: #029297;
+    border: 2px solid rgb(8, 18, 39);
+    cursor: pointer;
+}
