@@ -1,0 +1,114 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.ct{
+    font-family: 'Montserrat', sans-serif;
+}
+.detailContainerPro{
+    margin-top: 2%;
+    margin-left: 2%;
+    word-wrap:break-word;
+}
+
+.docNameModalPro{
+    font-size: 1.1rem;
+}
+
+.flexboxPro{
+    display: flex;
+}
+.leftFlexPro{
+    width: 25%;
+
+}
+.rightFlexPro{
+    width:68%;
+    margin-left: 2%;
+}
+.middleFlexPro{
+    width: 2%;
+    border-right: 2px solid gray;
+}
+
+.designationPro{
+    display: flex;
+    text-align: center;
+    margin-bottom: 8%;
+}
+.cellPro{
+    font-size: 1rem;
+}
+
+.optionContainerPro{
+    display: flex;
+    margin-top: 0.5%;
+}
+
+.radioPro{
+    margin-left: 5%;
+}
+
+.btnBtn {
+    background-color: #282c2e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 70%;
+    margin-top: 3%;
+    /* margin: 4px 2px; */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addNewOption{
+
+    background-color: rgb(126, 229, 145);
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    width: 10%;
+    /* padding: 3px; */
+    border-radius: 5px;
+    margin-left:5%;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+.addNewOption:hover{
+    cursor: pointer;
+    background-color: rgb(38, 97, 43);
+}
+
+
+.saveBtn{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 5%;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    /* margin-right: 5%; */
+}
+.saveBtn:hover{
+    cursor: pointer;
+    background-color: rgb(167, 213, 167);
+}
+.cancelBtn{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 7%;
+    padding:5px;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 5%;
+}
+.cancelBtn:hover{
+    cursor: pointer;
+    background-color: rgb(195, 153, 153);
+}

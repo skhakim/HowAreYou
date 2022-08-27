@@ -28,6 +28,7 @@ import LoginModalNew from './components/LoginModalNew';
 import ListFileRequests from "./components/ListFileRequests";
 import ListPsySignups from "./components/ListPsySignups";
 import ListAppointments from "./components/ListAppointments";
+import EditProfile from './components/EditProfile';
 
 
 
@@ -80,14 +81,14 @@ function App() {
                 <div>
                 <Routes>
 
-                    <Route path="/login" element={<LoginModal changeLoginModalFn={() => changeLoginModal(false)}
+                    {/* <Route path="/login" element={<LoginModal changeLoginModalFn={() => changeLoginModal(false)}
                                                          cngSignupModalFn={() => changeSignupModal(true)}
                                                          closeSignupModalFn={() => changeSignupModal(false)}
-                                                         isSignUp={signupModal}/>}/>
+                                                         isSignUp={signupModal}/>}/> */}
                     
-                    <Route path="/login2" element={<LoginModalNew />} />
+                    {/* <Route path="/login2" element={<LoginModalNew />} /> */}
 
-                    <Route path="/logout" element={<LogoutModal changeLogoutModalFn={() => changeLogoutModal(false)}/>}/>
+                    {/* <Route path="/logout" element={<LogoutModal changeLogoutModalFn={() => changeLogoutModal(false)}/>}/> */}
                     <Route path="/list_psych_signup_req" element={<ListPsySignups />} />
 
                     <Route path="/tests" element={<Tests/>}/>
@@ -116,6 +117,7 @@ function App() {
                     <Route path="/det/:testID/:quesID/:mode" element={<RenderDetailedQuesRequest />} />
 
                     <Route path="/list_appointments" element={<ListAppointments />} />
+                    <Route path="/edit_profile" element={<EditProfile />} />
                     <Route path="/list_appointment_requests" element={<ListAppointments type="pending" />} />
 
 

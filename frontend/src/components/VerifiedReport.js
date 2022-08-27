@@ -355,7 +355,7 @@ const VerifiedReports = () => {
                                                     )
                                                 )
                                             }
-                                            <button type="submit" className="btn-btn">Send </button>
+                                            <button type="submit" className="btn-btn">Request </button>
                                         </form>
                                     </div>
 
