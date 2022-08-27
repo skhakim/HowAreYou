@@ -7,10 +7,12 @@ import jwt
 from app import app, db
 from check_test_reponses_controller import *
 from authentication_controller import psychiatrist_token_required, patient_token_required
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 from pseudonym_generator import get_pseudonym
 
+
+date_map = {'Monday:' : 0, 'Tuesday:' : 1, 'Wednesday:' : 2, 'Thursdsay:' : 3, 'Friday:' : 4, 'Saturday:' : 5, 'Sunday:' : 6}
 
 @app.route('/pd/<int:_id>', methods=['GET'])
 def psychiatrist_details(_id):
@@ -36,15 +38,26 @@ def psychiatrist_details(_id):
     return jsonify(ret)  # psychiatrist.to_json()
 
 
+def next_day(weekday, given_date = datetime.now()):
+    day_shift = (weekday - given_date.weekday()) % 7
+    return given_date + timedelta(days=day_shift)
+
+
+
+
 @app.route('/make_consul_request', methods=['POST'])
 @patient_token_required
 def make_consul_request(_):
     data = request.get_json(force=True)
-    print(data)
+    # print(data)
+    _ = data['schedule'].split(" ")
+    date = date_map[_[0]]
+    print(int(_[1]) + 0 if (_[2] == 'AM') else 12)
     consultation_request = ConsultationRequest(
         counsel_id=data['counsel_id'],
         test_result_id=data['test_result_id'],
         schedule=data['schedule'],
+        con_time=next_day(date).replace(hour=int(_[1]) + (0 if (_[2] == 'AM') else 12), minute=0, second=0, microsecond=0),
     )
     db.session.add(consultation_request)
     db.session.commit()
@@ -174,6 +187,24 @@ def view_consultation_request(_):
     return jsonify({"consultation_requests": [{"id": x[0].consultation_request_id,
                                                "time": x[0].schedule, "method": x[0].method, "fee": x[0].fee,
                                                "approved": x[0].approved,
+                                               "info": x[0].info, "name": get_pseudonym()} for x in
+                                              consultation_requests]})
+
+
+@app.route('/view_appointments/', methods=['GET'])
+@psychiatrist_token_required
+def view_appointments(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    # get all approved consultation requests for this psychiatrist
+    consultation_requests = db.session.query(ConsultationRequest, CounsellingSuggestion) \
+        .join(CounsellingSuggestion, CounsellingSuggestion.c.counsel_id == ConsultationRequest.counsel_id) \
+        .filter(CounsellingSuggestion.c.psychiatrist_id == data['psychiatrist_id'])\
+        .filter(ConsultationRequest.approved).all()
+
+    return jsonify({"consultation_requests": [{"id": x[0].consultation_request_id,
+                                               "sched": x[0].schedule, "time": str(x[0].con_time),  "mode": x[0].method, "fee": x[0].fee,
+
                                                "info": x[0].info, "name": get_pseudonym()} for x in
                                               consultation_requests]})
 

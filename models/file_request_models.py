@@ -20,3 +20,4 @@ class FileUpload(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     uploader_id = db.Column(db.Integer, db.ForeignKey('patients.patient_id'), nullable=False)
     uploader_comment = db.Column(db.UnicodeText)  # comment from the patient
+    notification_pending = db.Column(db.Boolean, default=True)

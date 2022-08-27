@@ -165,7 +165,8 @@ CREATE TABLE public.consultation_request (
     approved boolean,
     schedule character varying(256),
     method character varying(64),
-    fee integer
+    fee integer,
+    con_time timestamp without time zone
 );
 
 
@@ -346,7 +347,8 @@ CREATE TABLE public.file_uploads (
     file_path character varying(256) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     uploader_id integer NOT NULL,
-    uploader_comment text
+    uploader_comment text,
+    notification_pending boolean DEFAULT true
 );
 
 
@@ -1051,16 +1053,20 @@ COPY public.awards (award_id, name, host) FROM stdin;
 -- Data for Name: consultation_request; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.consultation_request (consultation_request_id, counsel_id, test_result_id, info, approved, schedule, method, fee) FROM stdin;
-1	3	79	\N	f	Thursday: 8 PM - 11 PM	\N	\N
-2	3	79	\N	f	Friday: 9 AM - 11 AM	\N	\N
-6	1	80	\N	t	Sunday: 9 AM - 11 AM	\N	\N
-9	1	80	\N	f	Sunday: 9 AM - 11 AM	\N	\N
-11	1	80	\N	f	Sunday: 9 AM - 11 AM	\N	\N
-12	1	80	\N	t	Sunday: 9 AM - 11 AM	\N	\N
-13	7	81	\N	t	Monday: 6 PM - 11 PM	\N	\N
-10	1	80	\N	t	Sunday: 9 AM - 11 AM	\N	\N
-14	7	81	\N	t	Thursday: 6 PM - 11 PM	\N	\N
+COPY public.consultation_request (consultation_request_id, counsel_id, test_result_id, info, approved, schedule, method, fee, con_time) FROM stdin;
+12	1	80	\N	t	Sunday: 9 AM - 11 AM	Online	\N	2022-08-27 09:34:32
+13	7	81	\N	t	Monday: 6 PM - 11 PM	In-person	\N	2022-08-27 09:34:35
+10	1	80	\N	t	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:31
+9	1	80	\N	f	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:27
+2	3	79	\N	f	Friday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:26
+1	3	79	\N	f	Thursday: 8 PM - 11 PM	Online	\N	2022-08-27 09:34:30
+11	1	80	\N	f	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:34
+14	7	81	\N	t	Thursday: 6 PM - 11 PM	In-person	\N	2022-08-27 09:34:36
+6	1	80	\N	t	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:38
+15	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 09:55:51.332461
+16	2	79	\N	f	Friday: 9 AM - 11 AM	\N	\N	2022-09-02 09:00:00
+17	3	79	\N	f	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 12:00:00
+18	3	79	\N	f	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 15:00:00
 \.
 
 
@@ -1132,19 +1138,19 @@ COPY public.file_requests (file_request_id, created_at, title, description, is_v
 -- Data for Name: file_uploads; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.file_uploads (file_upload_id, file_request_id, file_path, created_at, uploader_id, uploader_comment) FROM stdin;
-1	1002	uploads/1002/pbkdf2:sha256:260000$vAU8kzZwh2mRuSh6$6d0afecd228f7cf521568ecc044810ce073584a4692769d3721f0a4753030c3b	2022-08-11 15:50:39.888332	1705002	\N
-2	1002	uploads/1002/4c4c12eaf785584_State2D.java	2022-08-11 15:54:20.137586	1705002	\N
-3	4	uploads/4/a580004e4615186_LICENSE.md	2022-08-11 16:02:35.351322	1705002	\N
-4	9	uploads/9/6d75a8ecbd983a1_CT-2.pdf	2022-08-14 14:24:01.053318	1705002	\N
-5	9	uploads/9/71095173dbd871c_CT-2.pdf	2022-08-14 14:24:03.390671	1705002	\N
-6	9	uploads/9/3e5a57018435453_CT-2.pdf	2022-08-14 14:24:03.835346	1705002	\N
-7	9	uploads/9/f7057b10ac45284_CT-2.pdf	2022-08-14 14:24:04.072687	1705002	\N
-8	9	uploads/9/114026381ba4871_CT-2.pdf	2022-08-14 14:24:04.245841	1705002	\N
-9	9	uploads/9/bd3f571adb55904_Crab_rRNA.meg	2022-08-14 15:01:17.642119	1705002	\N
-10	9	uploads/9/2a286bdd513fa1b_Crab_rRNA.meg	2022-08-14 15:01:41.906623	1705002	\N
-11	1003	uploads/1003/43b31d690b2bbda_hsp20.meg	2022-08-14 16:22:25.333635	1705002	\N
-12	1003	uploads/1003/a862f82e0e0ac87_hsp20.meg	2022-08-14 16:22:27.010784	1705002	\N
+COPY public.file_uploads (file_upload_id, file_request_id, file_path, created_at, uploader_id, uploader_comment, notification_pending) FROM stdin;
+1	1002	uploads/1002/pbkdf2:sha256:260000$vAU8kzZwh2mRuSh6$6d0afecd228f7cf521568ecc044810ce073584a4692769d3721f0a4753030c3b	2022-08-11 15:50:39.888332	1705002	\N	t
+2	1002	uploads/1002/4c4c12eaf785584_State2D.java	2022-08-11 15:54:20.137586	1705002	\N	t
+3	4	uploads/4/a580004e4615186_LICENSE.md	2022-08-11 16:02:35.351322	1705002	\N	t
+4	9	uploads/9/6d75a8ecbd983a1_CT-2.pdf	2022-08-14 14:24:01.053318	1705002	\N	t
+5	9	uploads/9/71095173dbd871c_CT-2.pdf	2022-08-14 14:24:03.390671	1705002	\N	t
+6	9	uploads/9/3e5a57018435453_CT-2.pdf	2022-08-14 14:24:03.835346	1705002	\N	t
+7	9	uploads/9/f7057b10ac45284_CT-2.pdf	2022-08-14 14:24:04.072687	1705002	\N	t
+8	9	uploads/9/114026381ba4871_CT-2.pdf	2022-08-14 14:24:04.245841	1705002	\N	t
+9	9	uploads/9/bd3f571adb55904_Crab_rRNA.meg	2022-08-14 15:01:17.642119	1705002	\N	t
+10	9	uploads/9/2a286bdd513fa1b_Crab_rRNA.meg	2022-08-14 15:01:41.906623	1705002	\N	t
+11	1003	uploads/1003/43b31d690b2bbda_hsp20.meg	2022-08-14 16:22:25.333635	1705002	\N	t
+12	1003	uploads/1003/a862f82e0e0ac87_hsp20.meg	2022-08-14 16:22:27.010784	1705002	\N	t
 \.
 
 
@@ -2025,7 +2031,7 @@ SELECT pg_catalog.setval('public.awards_award_id_seq', 2, true);
 -- Name: consultation_request_consultation_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.consultation_request_consultation_request_id_seq', 14, true);
+SELECT pg_catalog.setval('public.consultation_request_consultation_request_id_seq', 18, true);
 
 
 --
