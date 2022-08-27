@@ -101,8 +101,9 @@ def generic_login(auth):
     return make_response('Could not verify', 403, {'Authenticate': "Login required!"})
 
 
-def patient_signup_control(_id, _request):
+def signup_control(_id, _request):
     data = _request.get_json(force=True)
+    print(data)
     name, email = data.get('name'), data.get('email_')
     password = data.get('password_')
     dob = data.get('dob')
@@ -116,16 +117,16 @@ def patient_signup_control(_id, _request):
             location = data.get('location')
             patient = Patient(
                 height_inches=height_inches, weight_kgs = weight_kgs, location = location, date_of_birth = dob,
-                gender = gender, photo_path = 'https://picsum.photos/200',
+                gender = gender, photo_path = 'https://picsum.photos/200', role='patient',
                 name=name, email=email, password_hash=generate_password_hash(password))
             db.session.add(patient)
         elif _id == 2:
             certificateId = data.get('certificateId')
             psychiatrist = Psychiatrist(
                 certificate_id = certificateId, date_of_birth = dob, gender = gender, photo_path = 'https://picsum.photos/200'
-                , name = name, email = email, password_hash = generate_password_hash(password))
+                , name = name, email = email, password_hash = generate_password_hash(password), role='psychiatrist')
             db.session.add(psychiatrist)
         db.session.commit()
-        return make_response('Successfully registered.', 201)
+        return jsonify({'response': 'success'}), 201
     else:
-        return make_response('User already exists. Please Log in.', 202)
+        return jsonify({'response': 'failure'}), 201

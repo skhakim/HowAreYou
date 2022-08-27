@@ -377,6 +377,43 @@ ALTER SEQUENCE public.file_uploads_file_upload_id_seq OWNED BY public.file_uploa
 
 
 --
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notifications (
+    notification_id integer NOT NULL,
+    person_id integer NOT NULL,
+    "desc" character varying(256),
+    type character varying(1) DEFAULT 'M'::character varying,
+    seen boolean DEFAULT false
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- Name: notifications_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notifications_notification_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_notification_id_seq OWNER TO postgres;
+
+--
+-- Name: notifications_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notifications_notification_id_seq OWNED BY public.notifications.notification_id;
+
+
+--
 -- Name: options; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -755,6 +792,13 @@ ALTER TABLE ONLY public.file_uploads ALTER COLUMN file_upload_id SET DEFAULT nex
 
 
 --
+-- Name: notifications notification_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN notification_id SET DEFAULT nextval('public.notifications_notification_id_seq'::regclass);
+
+
+--
 -- Name: options option_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1036,6 +1080,32 @@ COPY public.answer (test_result_id, option_id) FROM stdin;
 86	111
 86	116
 86	121
+95	106
+95	112
+95	116
+95	122
+96	272
+96	277
+96	282
+96	287
+96	292
+96	297
+96	302
+96	307
+96	313
+96	317
+96	349
+97	272
+97	277
+97	282
+97	287
+97	292
+97	297
+97	302
+97	307
+97	312
+97	317
+97	349
 \.
 
 
@@ -1058,15 +1128,22 @@ COPY public.consultation_request (consultation_request_id, counsel_id, test_resu
 13	7	81	\N	t	Monday: 6 PM - 11 PM	In-person	\N	2022-08-27 09:34:35
 10	1	80	\N	t	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:31
 9	1	80	\N	f	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:27
-2	3	79	\N	f	Friday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:26
-1	3	79	\N	f	Thursday: 8 PM - 11 PM	Online	\N	2022-08-27 09:34:30
 11	1	80	\N	f	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:34
 14	7	81	\N	t	Thursday: 6 PM - 11 PM	In-person	\N	2022-08-27 09:34:36
 6	1	80	\N	t	Sunday: 9 AM - 11 AM	In-person	\N	2022-08-27 09:34:38
 15	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 09:55:51.332461
 16	2	79	\N	f	Friday: 9 AM - 11 AM	\N	\N	2022-09-02 09:00:00
-17	3	79	\N	f	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 12:00:00
-18	3	79	\N	f	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 15:00:00
+17	3	79	\N	t	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 12:00:00
+1	3	79	\N	t	Thursday: 8 PM - 11 PM	Online	\N	2022-08-27 09:34:30
+18	3	79	\N	t	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 15:00:00
+19	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 18:00:00
+20	1	80	\N	f	Tuesday: 3 PM - 5 PM	\N	\N	2022-08-30 15:00:00
+21	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 18:00:00
+22	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 18:00:00
+23	1	80	\N	f	Monday: 6 PM - 11 PM	\N	\N	2022-08-29 18:00:00
+24	3	79	\N	f	Thursday: 8 PM - 11 PM	\N	\N	2022-09-01 20:00:00
+25	3	79	\N	f	Wednesday: 3 PM - 5 PM	\N	\N	2022-08-31 15:00:00
+26	3	79	\N	f	Thursday: 8 PM - 11 PM	\N	\N	2022-09-01 20:00:00
 \.
 
 
@@ -1082,6 +1159,10 @@ COPY public.counselling_suggestion (counsel_id, test_result_id, psychiatrist_id)
 5	78	1705044
 6	81	1705045
 7	81	1705044
+9	76	1705044
+10	97	1705045
+11	97	1705044
+12	97	1705044
 \.
 
 
@@ -1151,6 +1232,30 @@ COPY public.file_uploads (file_upload_id, file_request_id, file_path, created_at
 10	9	uploads/9/2a286bdd513fa1b_Crab_rRNA.meg	2022-08-14 15:01:41.906623	1705002	\N	t
 11	1003	uploads/1003/43b31d690b2bbda_hsp20.meg	2022-08-14 16:22:25.333635	1705002	\N	t
 12	1003	uploads/1003/a862f82e0e0ac87_hsp20.meg	2022-08-14 16:22:27.010784	1705002	\N	t
+13	1002	uploads/1002/7edb0a154a88bda_CSE318_Offline_on_Probabilistic_Model.pdf	2022-08-27 17:34:27.415422	1705002	\N	t
+14	1002	uploads/1002/10fe4e79864f23c_CSE318_Offline_on_Probabilistic_Model.pdf	2022-08-27 17:42:22.456803	1705002	\N	t
+15	1002	uploads/1002/df77d85749a34a1_CSE318_Offline_on_Probabilistic_Model.pdf	2022-08-27 17:43:06.187799	1705002	\N	t
+16	1002	uploads/1002/05ee67a68c83bbe_CSE318_Offline_on_Probabilistic_Model.pdf	2022-08-27 17:43:09.48444	1705002	\N	t
+17	1002	uploads/1002/247859c6e182061_ECE_Cafe_application.docx	2022-08-27 20:28:57.692796	1705002	\N	t
+\.
+
+
+--
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.notifications (notification_id, person_id, "desc", type, seen) FROM stdin;
+1	1705002	Hello, world	M	f
+2	1705002	TF	M	f
+3	1705002	Unseen 1	T	f
+4	1705002	Unseen 2	M	f
+7	1705002	Dr. Iftekhar Hakim Kaowsar has accepted your consultation request at 2022-08-31 15:00:00	A	f
+8	1705002	Dr. Iftekhar Hakim Kaowsar has rejected your consultation request at 2022-08-27 09:34:26	D	f
+10	1705002	Dr. Iftekhar Hakim Kaowsar has verified your report for LEVEL 2—Anger—Adult	V	f
+11	1705044	A patient has uploaded file(s) against your file request titled Mania Videos	U	f
+12	1705045	A patient has asked for a consultation at Thursday: 8 PM - 11 PM	C	t
+13	1705002	Dr. Iftekhar Hakim Kaowsar has verified your report for LEVEL 2—Substance Use—Adult	V	f
+14	1705010	Dr. Iftekhar Hakim Kaowsar has verified your report for LEVEL 2—Substance Use—Adult	V	f
 \.
 
 
@@ -1566,6 +1671,11 @@ COPY public.patients (height_inches, weight_kgs, location, patient_id) FROM stdi
 67	\N	Left Wing	1705016
 65	\N	Khulna	1705017
 408	515	dffrgeb	5
+40	42	NAY	6
+68	85	Hell	7
+63	82	Shyamolli	1705010
+67	68	Dinajpur	1705001
+66	72	Uttara	1705044
 \.
 
 
@@ -1576,6 +1686,9 @@ COPY public.patients (height_inches, weight_kgs, location, patient_id) FROM stdi
 COPY public.persons (person_id, name, email, password_hash, date_of_birth, gender, photo_path, cellphone, role) FROM stdin;
 1705062	Jawad Ul Kabir	jawaduk15@gmail.com	pbkdf2:sha256:260000$pIUgb3K1mDvcHf4V$108cd7c6375aeda4214113352e53117316cbe05846365834efc7d2b8322e0246	1992-07-29 00:00:00	M	picsum.photos/200	01775024408	psychiatrist
 1705060	Maisha Rahman Mim	maisharahman494@gmail.com	pbkdf2:sha256:260000$595olEpwGXhC73px$f18fdf8c562b39f9a11c333723aad9e9fc08502277f39174f9550861275764c2	1992-07-29 00:00:00	F	picsum.photos/200	0191922921	psychiatrist
+6	Random Ran	ran@ugrad.cse.buet.ac.bd	pbkdf2:sha256:260000$iiNZwwCrXYEjjDsS$edda6348db7477594ae136e64d1ca7ee252ea6e31fbdcb18a3641cc1651d1bb7	2015-01-10 00:00:00	f	https://picsum.photos/200	\N	\N
+7	Check Check 	check@ugrad.cse.buet.ac.bd	pbkdf2:sha256:260000$o8yig7eztorrmkP9$17c8085af636de4e68365622322cb8b7ac755be107c757abdca391d170eeeeae	1986-10-10 00:00:00	f	https://picsum.photos/200	\N	patient
+8	Sheikh Munim Hossain	munim@pq.er	pbkdf2:sha256:260000$HkZhtvd5Nv3uvJw6$dd2bf9b06c4cd419e175d2eafedd4a98887f01ee0efae5c25355a071e1d7fc51	1998-08-15 00:00:00	m	https://picsum.photos/200	\N	psychiatrist
 1705004	Ramisa Alam	ramisa2108@gmail.com	pbkdf2:sha256:260000$qaWkYmoDLMsLL4nz$5b5c6009099a4897d20441cd415639661b63e2d1be0a0950efd81136cb83d527	1992-07-29 00:00:00	F	picsum.photos/200	\N	patient
 1705063	Mahfuzur Rahman Rifat	mahfuzrifat7@gmail.com	pbkdf2:sha256:260000$tJzDhjunK9QIscUy$466d2a5a17e6588fa68518b4f0fb224e150f97a71e670642bfb387e90fc91e8d	1992-07-29 00:00:00	M	picsum.photos/200	``	patient
 1	Goodman	goodman@mail.com	pbkdf2:sha256:260000$K2sfLqByvR0UFkwX$189d1029f0e340154e1ebe2b43dd31a9a5845f391f9f49687d53aa65cf888b6d	1992-07-29 00:00:00	\N	\N	\N	patient
@@ -1750,6 +1863,7 @@ COPY public.psychiatrists (psychiatrist_id, is_verified, available_times, certif
 1705044	t	Monday: 6 PM - 11 PM;Tuesday: 3 PM - 5 PM;Thursday: 6 PM - 11 PM	BMDC_A_70777	1000
 1705062	t	Monday: 6 PM - 11 PM;Tuesday: 3 PM - 5 PM;Friday: 8 PM - 12 PM	BMDC_A_70789	1250
 1705003	f	never	BMDC_A+++_544	10000
+8	f	\N	BMDC_A_48485	\N
 \.
 
 
@@ -1962,6 +2076,14 @@ COPY public.test_question (test_id, question_id, is_approved, pending_delete, de
 COPY public.test_result_disease (test_result_id, disease_id) FROM stdin;
 78	3
 81	4
+76	1
+76	9
+84	7
+97	3
+97	4
+97	5
+97	8
+97	9
 \.
 
 
@@ -1976,8 +2098,6 @@ COPY public.test_results (test_result_id, test_id, patient_id, submitted_at, ver
 7	2	1705008	2022-02-01 02:00:00	1705044	2022-08-12 09:08:53.582935	\N	ygy	12
 38	2	1705008	2022-12-07 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
 6	2	1705008	2022-02-01 01:00:00	1705044	2022-08-12 09:08:53.582935	\N	ygy	12
-86	3	1705002	2022-08-27 00:21:01	\N	\N	\N	\N	4
-84	3	1705002	2022-08-27 00:18:21	\N	\N	\N	\N	17
 72	2	1705008	2022-11-07 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
 19	2	1705008	2022-02-01 05:00:00	1705044	2022-08-12 09:08:53.582935	\N	ygy	12
 36	2	1705008	2022-07-17 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
@@ -1989,8 +2109,11 @@ COPY public.test_results (test_result_id, test_id, patient_id, submitted_at, ver
 18	2	1705008	2022-02-01 04:00:00	1705044	2022-08-12 09:08:53.582935	\N	ygy	12
 16	2	1705008	2022-02-01 04:00:00	1705044	2022-08-12 09:08:53.582935	\N	ygy	12
 4	2	1705016	2022-01-01 01:00:00	\N	\N	\N	\N	19
+86	3	1705002	2022-08-27 00:21:01	1705045	2022-08-27 19:48:50.265083	\N	Good enough	4
+84	3	1705002	2022-08-27 00:18:21	1705045	2022-08-27 19:50:45.523654	\N	Be less angry	17
+95	3	1705002	2022-08-27 22:01:44	\N	\N	\N	\N	0
+97	4	1705010	2022-08-27 22:07:09	1705045	2022-08-27 22:07:47.687865	\N	Hey.. Be better. 	2
 74	2	1705008	2022-11-07 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
-82	4	1705002	2022-08-27 00:05:46	\N	\N	\N	\N	1
 80	2	1705002	2022-07-17 14:42:00	1705045	2022-08-12 09:22:57.466509	\N	ygny	8
 79	3	1705002	2022-07-17 10:49:44	1705045	2022-08-12 09:22:57.466509	\N	ygny	8
 85	2	1705002	2022-08-27 00:19:32	\N	\N	\N	\N	30
@@ -1998,9 +2121,11 @@ COPY public.test_results (test_result_id, test_id, patient_id, submitted_at, ver
 81	2	1705002	2022-08-14 13:48:35	1705044	2022-08-14 13:49:46.48578	\N	ADHD exists	19
 37	2	1705002	2022-07-17 00:45:52	\N	\N	\N		19
 1	2	1705002	2022-07-15 21:29:35	1705045	2022-08-12 09:22:57.466509	\N	ygny	8
-76	2	1705002	2022-07-17 03:29:27	\N	\N	\N		33
 75	2	1705008	2022-11-07 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
 73	2	1705008	2022-11-07 00:44:28	1705044	2022-08-12 09:08:53.582935	\N	ygy	19
+76	2	1705002	2022-07-17 03:29:27	1705045	2022-08-27 19:03:17.882452	\N	Not good	33
+82	4	1705002	2022-08-27 00:05:46	1705045	2022-08-27 21:47:19.998226	\N	Good Boy	1
+96	4	1705010	2022-08-27 22:06:02	\N	\N	\N	\N	0
 \.
 
 
@@ -2031,14 +2156,14 @@ SELECT pg_catalog.setval('public.awards_award_id_seq', 2, true);
 -- Name: consultation_request_consultation_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.consultation_request_consultation_request_id_seq', 18, true);
+SELECT pg_catalog.setval('public.consultation_request_consultation_request_id_seq', 26, true);
 
 
 --
 -- Name: counselling_suggestion_counsel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.counselling_suggestion_counsel_id_seq', 7, true);
+SELECT pg_catalog.setval('public.counselling_suggestion_counsel_id_seq', 12, true);
 
 
 --
@@ -2066,7 +2191,14 @@ SELECT pg_catalog.setval('public.file_requests_file_request_id_seq', 10, true);
 -- Name: file_uploads_file_upload_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.file_uploads_file_upload_id_seq', 12, true);
+SELECT pg_catalog.setval('public.file_uploads_file_upload_id_seq', 17, true);
+
+
+--
+-- Name: notifications_notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.notifications_notification_id_seq', 14, true);
 
 
 --
@@ -2080,7 +2212,7 @@ SELECT pg_catalog.setval('public.options_option_id_seq', 446, true);
 -- Name: persons_person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.persons_person_id_seq', 5, true);
+SELECT pg_catalog.setval('public.persons_person_id_seq', 8, true);
 
 
 --
@@ -2101,7 +2233,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
 -- Name: test_results_test_result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.test_results_test_result_id_seq', 86, true);
+SELECT pg_catalog.setval('public.test_results_test_result_id_seq', 97, true);
 
 
 --
@@ -2181,6 +2313,14 @@ ALTER TABLE ONLY public.file_requests
 
 ALTER TABLE ONLY public.file_uploads
     ADD CONSTRAINT file_uploads_pkey PRIMARY KEY (file_upload_id);
+
+
+--
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (notification_id);
 
 
 --
@@ -2365,6 +2505,14 @@ ALTER TABLE ONLY public.file_uploads
 
 ALTER TABLE ONLY public.file_uploads
     ADD CONSTRAINT file_uploads_uploader_id_fkey FOREIGN KEY (uploader_id) REFERENCES public.patients(patient_id);
+
+
+--
+-- Name: notifications notifications_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_person_id_fkey FOREIGN KEY (person_id) REFERENCES public.persons(person_id);
 
 
 --

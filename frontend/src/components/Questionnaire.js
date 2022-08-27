@@ -29,9 +29,10 @@ const callRestApiForPost = async (restEndpoint, message_body) => {
         }
         , body: message_body
     });
-    console.log(response)
+    console.log("Body: ", message_body)
+    console.log("Response: ", response)
     const jsonResponse = await response.json();
-    // console.log(jsonResponse.data.relationships.questions.data);
+     console.log(jsonResponse.data);
     await fetch('calculate_result/' + jsonResponse.data.attributes.test_result_id, {method: "POST"}).then()
     return jsonResponse;
 };

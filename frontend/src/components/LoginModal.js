@@ -48,6 +48,14 @@ const LoginModal = ({changeLoginModalFn, cngSignupModalFn, isSignUp, closeSignup
         )
         const data = await res.json()
         console.log(data)
+
+        if(data.response === 'success'){
+            alert('Sign up successful')
+        }
+        else {
+            alert('Sign up unsuccessful')
+        }
+
     }
 
     const [isPatient, setIsPatient] = useState(true)

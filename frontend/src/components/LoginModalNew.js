@@ -93,11 +93,9 @@ const LoginModalNew = ({loginModalOff, signUpModalOn}) => {
                         <div className={styles.row}>
                             <input type="text" className={styles.inp} id="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", }} />
                         </div>
-
                         <div className={styles.row2}>
                             <input type="password" className={styles.inp} id="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{width: "93%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none" }} />
                         </div>
-
                         <div className={styles.row}>
                             <input type="submit" value="Log In" style={{width: "90%", marginLeft: "4%", backgroundColor: "#60c4bc", color:"white", padding: "12px 20px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "1.1rem"}}/>
                         </div>

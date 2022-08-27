@@ -79,9 +79,9 @@ def d(_):
     return 'Hello'
 
 
-@app.route('/patient_signup/<_id>', methods=['POST'])
+@app.route('/signup/<int:_id>', methods=['POST'])
 def patient_signup(_id):
-    return patient_signup_control(_id, request)
+    return signup_control(_id, request)
 
 
 @app.route('/info', methods=['POST'])
