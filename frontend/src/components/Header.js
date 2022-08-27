@@ -265,7 +265,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                             } sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 Home
                             </Button>
-                            <Button key="PRICING" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
+                            <Button key="PRICING" onClick={() => {handleCloseNavMenu(); navigate("/trends");} } sx={{ my: 2, color: 'black', display: 'block', ml:3, '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 Trends
                             </Button>
                             <Button key="BLOG" onClick={() => {

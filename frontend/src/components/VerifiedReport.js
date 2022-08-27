@@ -340,7 +340,7 @@ const VerifiedReports = () => {
                                         </ul>
 
                                         
-                                        <b>Available Hours</b>
+                                        <b>Request Appointment</b>
                                         <hr className='line-psy' style={{width:"90%"}}></hr>
                                         <form onSubmit={requestTime}>
                                             {
@@ -355,7 +355,7 @@ const VerifiedReports = () => {
                                                     )
                                                 )
                                             }
-                                            <button type="submit" className="btn-btn">Request </button>
+                                            <button type="submit" className="btn-btn">Request</button>
                                         </form>
                                     </div>
 

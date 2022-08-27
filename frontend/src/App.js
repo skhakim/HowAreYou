@@ -29,6 +29,7 @@ import ListFileRequests from "./components/ListFileRequests";
 import ListPsySignups from "./components/ListPsySignups";
 import ListAppointments from "./components/ListAppointments";
 import EditProfile from './components/EditProfile';
+import Trends from './components/Trends';
 
 
 
@@ -118,6 +119,7 @@ function App() {
 
                     <Route path="/list_appointments" element={<ListAppointments />} />
                     <Route path="/edit_profile" element={<EditProfile />} />
+                    <Route path="/trends" element={<Trends />} />
                     <Route path="/list_appointment_requests" element={<ListAppointments type="pending" />} />
 
                     <Route path="/profile/" element={<EditProfile id={1705045} />} />
