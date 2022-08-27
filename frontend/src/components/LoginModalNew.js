@@ -91,13 +91,13 @@ const LoginModalNew = ({loginModalOff, signUpModalOn}) => {
                 <div className={styles.formDiv}>
                     <form onSubmit={onLoginSubmit}>
                         <div className={styles.row}>
-                            <input type="text" className={styles.inp} id="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", }} />
+                            <Input type="text" className={styles.inp} id="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} sx={{ml:"15px", width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height:"55px", }} />
                         </div>
                         <div className={styles.row2}>
-                            <input type="password" className={styles.inp} id="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{width: "93%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none" }} />
+                            <Input type="password" className={styles.inp} id="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} sx={{width: "94%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px",  }} />
                         </div>
                         <div className={styles.row}>
-                            <input type="submit" value="Log In" style={{width: "90%", marginLeft: "4%", backgroundColor: "#60c4bc", color:"white", padding: "12px 20px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "1.1rem"}}/>
+                            <input type="submit" value="Log In" style={{width: "90%", marginLeft: "4%", backgroundColor: "#60c4bc", color:"white", padding: "12px 20px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "1.1rem", '&:hover':{backgroundColor:"#06e6d4"} }}/>
                         </div>
                     </form>
                 </div>

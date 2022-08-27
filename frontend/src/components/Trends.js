@@ -12,6 +12,10 @@ import {
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import CountUp from 'react-countup';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import GroupsIcon from '@mui/icons-material/Groups';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 ChartJS.register(
     CategoryScale,
@@ -49,6 +53,7 @@ const Trends = () => {
     const fetchFromServer = async () => {
         const response = await fetch("/trends")
         const data = await response.json()
+        console.log(data)
         setDataFromServer(data)
     }
 
@@ -96,7 +101,7 @@ const Trends = () => {
           {
             label: '',
             data: dataFromServer.totalResponseData,
-            backgroundColor: col,
+            backgroundColor: "#8cba7f",
           },
         ],
     };
@@ -144,7 +149,6 @@ const Trends = () => {
         col = "rgba(" + r + ", " + g + ", " + b + ", 0.6)";
         colors.push(col)
     }
-    console.log(colors)
 
     const data2 = {
         labels: dataFromServer.detectedLabel,
@@ -186,11 +190,34 @@ const Trends = () => {
                 
             </div>
 
-            <div className={styles.numberStat}>
+            <div style={{marginTop:"4%"}} className={styles.numberStat}>
                 <div style={{display:"flex"}}>
                     {/* left */}
-                    <div>
-                        <CountUp end={500} />
+                    <div style={{width:"24%", textAlign:"center"}}>
+                        <div><CountUp end={dataFromServer.n_patients} /></div>
+                        <div><SentimentVeryDissatisfiedIcon sx={{fontSize:"4rem", mt:1.5, color:"#353634"}} /></div>
+                        <div style={{fontSize:"1.5rem"}}>Patients</div>
+                    </div>
+
+                    {/* Right */}
+                    <div style={{width:"24%", textAlign:"center"}}>
+                        <CountUp end={dataFromServer.n_psychiatrists} />
+                        <div><GroupsIcon sx={{fontSize:"4rem", mt:1.5, color:"#353634"}} /></div>
+                        <div style={{fontSize:"1.5rem"}}>Psychiatrists</div>
+                    </div>
+
+                    {/* left */}
+                    <div style={{width:"24%", textAlign:"center"}}>
+                        <CountUp end={dataFromServer.n_tests_conducted} />
+                        <div><QuestionAnswerIcon sx={{fontSize:"4rem", mt:1.5, color:"#353634"}} /></div>
+                        <div style={{fontSize:"1.5rem"}}>Tests Conducted</div>
+                    </div>
+
+                    {/* Right */}
+                    <div style={{width:"24%", textAlign:"center"}}>
+                        <CountUp end={dataFromServer.n_consultations_done} />
+                        <div><SupervisorAccountIcon sx={{fontSize:"4rem", mt:1.5, color:"#353634"}} /></div>
+                        <div style={{fontSize:"1.5rem"}}>Consultations Given</div>
                     </div>
                     
                 </div>

@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import Avatar from '@mui/material/Avatar';
 import {getToken, setToken, setIdType, setPersonId, setUsername, getIdType} from './Variables.js';
+import { Input } from '@mui/material';
 
 const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
 
@@ -137,27 +138,27 @@ const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
                     <form onSubmit={onSignUpSubmit}>
 
                         <div className={styles.row2}>
-                            <select value={personType} onChange={(e) => changePersonType(e)} style={{width: "93%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}>
+                            <select value={personType} onChange={(e) => changePersonType(e)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}>
                                 <option value="patient">Patient</option>
                                 <option value="psychiatrist">Psychiatrist</option>
                             </select>
                         </div>
 
                         <div className={styles.row}>
-                            <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }} />
+                            <Input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }} />
                         </div>
 
                         <div className={styles.row}>
-                            <input type="text" className={styles.inp} id="email" name="email" placeholder="Email" value={email_} onChange={(e) => setEmail_(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }} />
+                            <Input type="text" className={styles.inp} id="email" name="email" placeholder="Email" value={email_} onChange={(e) => setEmail_(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }} />
                         </div>
 
                         <div className={styles.row2}>
-                            <input type="password" className={styles.inp} id="password" name="password" placeholder="Password" value={password_} onChange={(e) => setPassword_(e.target.value)} style={{width: "93%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                            <Input type="password" className={styles.inp} id="password" name="password" placeholder="Password" value={password_} onChange={(e) => setPassword_(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                         </div>
 
 
                         <div className={styles.row2}>
-                            <select value={gender} onChange={(e) => setGender(e.target.value)} style={{width: "93%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}>
+                            <select value={gender} onChange={(e) => setGender(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}>
                                 <option value="female">Female</option>
                                 <option value="male">Male</option>
                                 <option value="others">Others</option>
@@ -165,7 +166,7 @@ const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
                         </div>
 
                         <div className={styles.row}>
-                            <input type="text" placeholder="DD-MM-YYYY" value={dob} onChange={(e) => setDob(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                            <Input type="text" placeholder="DD-MM-YYYY" value={dob} onChange={(e) => setDob(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                         </div>
 
 
@@ -173,22 +174,22 @@ const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
                             (
                                 <>
                                     <div className={styles.row}>
-                                        <input type="text" placeholder="Height - Inches" value={height} onChange={(e) => setHeight(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                                        <Input type="text" placeholder="Height - Inches" value={height} onChange={(e) => setHeight(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                                     </div>
 
                                     <div className={styles.row}>
-                                        <input type="text" placeholder="Weight - Kgs" value={weight} onChange={(e) => setWeight(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                                        <Input type="text" placeholder="Weight - Kgs" value={weight} onChange={(e) => setWeight(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                                     </div>
 
                                     <div className={styles.row}>
-                                        <input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                                        <Input type="text" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                                     </div>
                                 </>
                             ):
                             (
                                 <>
                                     <div className={styles.row}>
-                                        <input type="text" placeholder="Certificate No." value={certificateId} onChange={(e) => setCertificateId(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "50px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
+                                        <Input type="text" placeholder="Certificate No." value={certificateId} onChange={(e) => setCertificateId(e.target.value)} style={{width: "90%", border: "1px solid #ccc", borderRadius: "0px", resize: "vertical", height: "55px", outline: "none", '&focus':{border: "5px solid #60c4bc"} }}/>
                                     </div>
                                 </>
                             )
@@ -198,7 +199,7 @@ const SignupModalNew = ({signUpModalOff, loginModalOn}) => {
 
 
                         <div className={styles.row}>
-                            <input type="submit" value="Sign Up" style={{width: "90%", marginLeft: "4%", backgroundColor: "#60c4bc", color:"white", padding: "12px 20px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "1.1rem"}}/>
+                            <Input type="submit" value="Sign Up" style={{width: "90%", backgroundColor: "#60c4bc", color:"white", height:"55px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "1.1rem"}}/>
                         </div>
                     </form>
                 </div>
