@@ -7,7 +7,7 @@ from flask import request, jsonify, make_response
 from werkzeug.security import check_password_hash
 
 from app import app, db
-from models.models import Person, Patient, Psychiatrist, ReviewBoardMember
+from models.export import *
 
 
 def generic_token_required(user_type, f):
@@ -135,13 +135,23 @@ def signup_control(_id, _request):
 @app.route('/change_profile', methods=['POST'])
 @psychiatrist_token_required
 def change_profile(_):
-    data = request.get_json(force=True)
-    print(data)
+    req_data = request.get_json(force=True)
     token = request.headers['x-access-token']
     data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
     psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
-    psychiatrist.cell = data['cell']
-    psychiatrist.available_hours = ';'.join(data['available_hours'])
+    print(data.keys())
+    psychiatrist.cellphone = req_data['cell']
+    print(req_data.keys())
+    psychiatrist.available_hours = ';'.join(req_data['available_hours'])
+    for award_data in req_data['awards']:
+        if ';' not in award_data:
+            continue
+        award_name, award_inst = award_data.split(';')
+        award = Award(host=award_inst, name=award_name)
+        db.session.add(award)
+        db.session.commit()
+        psy_award = PsychiatristAward(award_id=award.award_id, psychiatrist_id=psychiatrist.psychiatrist_id)
+        db.session.add(psy_award)
     db.session.add(psychiatrist)
     db.session.commit()
     return "OK"

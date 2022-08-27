@@ -64,7 +64,7 @@ const EditProfile = (props) => {
     }
 
     const fetchPsychiatristDetails = async (id) => {
-        const res = await fetch('pd/' + id)
+        const res = await fetch('/pd/' + id)
         console.log("res", res)
         const data = await res.json()
         console.log("Data", data)
@@ -95,6 +95,7 @@ const EditProfile = (props) => {
             alert("Award Field Empty")
             return
         }
+
 
         var index = 0;
         while (index < awards.length) {
@@ -149,6 +150,7 @@ const EditProfile = (props) => {
         changedData["id"] = psyDetail["id"]
         changedData["name"] = psyDetail["name"]
 
+
         console.log(changedData)
 
         const res = await fetch('/change_profile',
@@ -166,7 +168,10 @@ const EditProfile = (props) => {
             {/*<button onClick={() => psyClicked(getPersonId())}> <label>yeyhe u</label></button>*/}
             <div className={styles.detailContainerPro}>
                 {/*{console.log("PD: ", psyDetail)}*/}
-                <div className={styles.docNameModalPro}><h2>{psyDetail.name}</h2></div>
+                <div className={styles.docNameModalPro}>
+                    {(props.id===undefined) ? <></> : <h3>Signup Review Request for </h3>}
+                    <h2>Dr. {psyDetail.name}</h2>
+                </div>
                 <hr className='line-psy' style={{width: "70%"}}></hr>
 
                 <div className={styles.flexboxPro}>
@@ -250,13 +255,14 @@ const EditProfile = (props) => {
 
                         <div style={{display: "flex", marginTop: "20px"}}>
                             <div><b>HONORS and AWARDS</b></div>
-                            {/*{*/}
-                            {/*    !editAwards && (*/}
-                            {/*        <div onClick={() => {setEditAwards(true); }} className={styles.addNewOption}>*/}
-                            {/*            <div style={{marginLeft:"4px"}}>Add Award</div>*/}
-                            {/*        </div>*/}
-                            {/*    )*/}
-                            {/*}*/}
+                            {
+                                (props.id === undefined) ?
+                                (!editAwards && (
+                                    <div onClick={() => {setEditAwards(true); }} className={styles.addNewOption}>
+                                        <div style={{marginLeft:"4px"}}>Add Award</div>
+                                    </div>
+                                )) : <></>
+                            }
                         </div>
                         <hr className='line-psy' style={{width: "90%"}}></hr>
                         {
@@ -280,7 +286,7 @@ const EditProfile = (props) => {
                                     <div style={{display: "flex", marginLeft: "50px"}}>
 
                                         <input style={{"marginLeft": "0%", "width": "50%", borderRadius: "4px"}} type="text"
-                                               placeholder="Enter Award Name" value={newAward}
+                                               placeholder="name of the award;the institution who gave the award" value={newAward}
                                                onChange={(e) => setNewAward(e.target.value)}/>
 
                                         <div style={{marginLeft: "2%", marginTop: "22px"}} className={styles.saveBtn}
@@ -342,7 +348,7 @@ const EditProfile = (props) => {
                                     <div style={{display: "flex", marginLeft: "50px"}}>
 
                                         <input style={{"marginLeft": "0%", "width": "50%", borderRadius: "4px"}} type="text"
-                                               placeholder="Enter Time" value={newHour}
+                                               placeholder="Date: Time Slot" value={newHour}
                                                onChange={(e) => setNewHour(e.target.value)}/>
 
                                         <div style={{marginLeft: "2%", marginTop: "22px"}} className={styles.saveBtn}

@@ -3,6 +3,7 @@ import "./VerifiedReport.css"
 import { useEffect, useState } from 'react'
 import {FaAngleDown, FaAngleUp} from 'react-icons/fa'
 import {getToken} from "./Variables";
+import {Psychologist} from "./Psychologist";
 
 /*
 const VerifiedReport = () => {
@@ -268,10 +269,10 @@ const VerifiedReports = () => {
                                                 <b>Suggestions:</b>
                                                 <div style={{"margin-left":"3%", "word-wrap":"break-word"}}>{verifiedReport.manual_report}</div><br />
 
+                                                { (verifiedReport.suggestedPsychiatrists).length > 0 ? ( <>
                                                 <b>Suggested Psychiatrists:</b>
                                                 <div >
                                                     <ul >
-
                                                         {
                                                             verifiedReport.suggestedPsychiatrists.map(
                                                                 (suggPsy) => <li><span className='docName' onClick={() => {
@@ -281,9 +282,8 @@ const VerifiedReports = () => {
                                                                 }}>{suggPsy.name}</span></li>
                                                             )
                                                         }
-
                                                     </ul>
-                                                </div>
+                                                </div> </>) : (<Psychologist/>) }
                                             </div>
                                         ) : (<></>)
                                     }

@@ -37,6 +37,7 @@ def psychiatrist_details(_id):
 
     ret["available_hours"] = psychiatrist.available_times.split(";")
 
+    print(ret)
     return jsonify(ret)  # psychiatrist.to_json()
 
 
