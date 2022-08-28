@@ -108,6 +108,11 @@ def approve_psychiatrist(_, psychiatrist_id):
     psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id).first()
     psychiatrist.is_verified = True
     db.session.commit()
+
+    notification = Notification(person_id=psychiatrist_id, desc='Your account has been approved.', type='D')
+    db.session.add(notification)
+    db.session.commit()
+
     return jsonify({'response': 'success'})
 
 

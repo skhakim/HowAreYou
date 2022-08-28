@@ -25,11 +25,16 @@ def generic_token_required(user_type, f):
             # print('PRINTING DATA')
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             print(data)
-            if user_type == 'patient' or ('patient_id' in data.keys()):
+            if user_type == 'patient' and ('patient_id' in data.keys()):
                 current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
-            elif user_type == 'psychiatrist' or ('psychiatrist_id' in data.keys()):
+            elif user_type == 'init_psychiatrist' and ('psychiatrist_id' in data.keys()):
                 current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
                 print(current_user)
+            elif user_type == 'psychiatrist' and ('psychiatrist_id' in data.keys()):
+                current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
+                print(current_user)
+                if not current_user.is_verified:
+                    return jsonify({'message': 'You are not verified yet!'}), 401
             else:
                 return jsonify({'message': 'Token is invalid!'}), 401
         except Exception as e:
@@ -44,6 +49,7 @@ def generic_token_required(user_type, f):
 token_required = lambda f : generic_token_required('person', f)
 patient_token_required = lambda f : generic_token_required('patient', f)
 psychiatrist_token_required = lambda f : generic_token_required('psychiatrist', f)
+init_psychiatrist_token_required = lambda f : generic_token_required('init_psychiatrist', f)
 is_review_board_member = lambda f : is_review_board_member(f)
 
 
@@ -88,8 +94,8 @@ def generic_login(auth):
     elif user.role == 'psychiatrist':
         id_name = 'psychiatrist_id'
         psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=user.person_id).first()
-        if not psychiatrist.is_verified:
-            return jsonify({'message': 'You are not verified yet!'}), 401
+        # if not psychiatrist.is_verified:
+        #     return jsonify({'message': 'You are not verified yet!'}), 401
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=600)},
                            app.config['SECRET_KEY'])
@@ -136,7 +142,7 @@ def signup_control(_id, _request):
 
 
 @app.route('/change_profile', methods=['POST'])
-@psychiatrist_token_required
+@init_psychiatrist_token_required
 def change_profile(_):
     req_data = request.get_json(force=True)
     token = request.headers['x-access-token']
