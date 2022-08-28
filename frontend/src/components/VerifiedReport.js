@@ -244,7 +244,7 @@ const VerifiedReports = () => {
                                 <div className="review-card">
                                     <div className='title'>
                                         <div className='left'>
-                                            <b>{verifiedReport.psychiatrist}</b> <div style={{"marginLeft":"0.5%"}}></div> reviewed your <div className='link'> report </div>
+                                            <b>{verifiedReport.psychiatrist}</b> <div style={{"marginLeft":"0.5%"}}></div> reviewed your report for <span>   </span><b> – {verifiedReport.test_name}</b>.
                                         </div>
 
                                         <div className='right'>

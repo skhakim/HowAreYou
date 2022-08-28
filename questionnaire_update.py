@@ -37,8 +37,13 @@ def get_ques(ques_id, test_id):
     test = Test.query.filter_by(test_id=test_id).first()
     question = Question.query.filter_by(question_id=ques_id).first()
     options = Option.query.filter_by(question_id=ques_id).all()
+    stmt = db.session.query(TestQuestion).filter(TestQuestion.c.test_id==test_id and TestQuestion.c.question_id==ques_id)
+    tq = db.session.execute(stmt)
+    for _ in tq:
+        res = _[-1]
     return jsonify({"quesBody": question.question_text, "options": [opt.option_text for opt in options]
                        , "mode": "add", "requestBy": pseudonym_generator.get_pseudonym()
+                       , "reasoning": res
                        , "id": test_id, "testName": test.name})
 
 

@@ -240,6 +240,7 @@ def create_event(start, desc, email1, email2):
     # d = datetime.now().date()
     # tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=3)
     # start = start.isoformat()
+    start = start + timedelta(hours=6)
     end = (start + timedelta(hours=1)).isoformat()
 
     event_result = service.events().insert(calendarId='primary',
@@ -247,7 +248,7 @@ def create_event(start, desc, email1, email2):
            "summary": 'Psychiatrist Consultation',
            "description": desc,
            "start": {"dateTime": start.isoformat(), "timeZone": 'Asia/Dhaka'},
-           "end": {"dateTime": end, "timeZone": 'Asia/Dhaka'},'attendees': [
+           "end": {"dateTime": end, "timeZone": 'UTC+0600'},'attendees': [
               {'email': email2},
               {'email': email1}],
             'reminders': {

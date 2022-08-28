@@ -82,6 +82,7 @@ const AddOrDeleteQues = (props) => {
         deleteQuestion(quesID, deleteReasoning).then()
         setDeleteReasoning("")
         setDeleteReasoningModal(false)
+        alert('Your request has been posted successfully')
     }
 
 

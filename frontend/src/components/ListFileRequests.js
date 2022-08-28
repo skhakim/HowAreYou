@@ -31,7 +31,7 @@ const ListFileRequests = () => {
     return (
         <div className='container'>
 
-            <div className='test-name'>Questionnaire Update Requests</div>
+            <div className='test-name'>Review File Upload Requests</div>
             <hr className='line-psy'></hr>
             
 

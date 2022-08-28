@@ -35,6 +35,11 @@ def generic_token_required(user_type, f):
                 print(current_user)
                 if not current_user.is_verified:
                     return jsonify({'message': 'You are not verified yet!'}), 401
+            elif user_type == 'person':
+                if 'psychiatrist_id' in data.keys():
+                    current_user = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
+                elif 'patient_id' in data.keys():
+                    current_user = Patient.query.filter_by(patient_id=data['patient_id']).first()
             else:
                 return jsonify({'message': 'Token is invalid!'}), 401
         except Exception as e:

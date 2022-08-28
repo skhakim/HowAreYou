@@ -87,6 +87,7 @@ def upload_a_file(_, frID):
 def download_files(frID):
     fr_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(frID))
     print(fr_dir)
+    subprocess.call("rm -f tmp.zip", shell=True) # remove old zip file
     subprocess.call("zip tmp.zip -r " + fr_dir, shell=True)
     return send_file("tmp.zip", as_attachment=True)
 

@@ -92,6 +92,8 @@ const DetailedQuesRequest = (props) => {
                             </div>
                             <hr className='line-psy'></hr>
 
+                            <div> {request.reasoning} </div>
+
                             <div className='answersHandler'>
 
                                 <div className='questionTextContainer'>
@@ -128,12 +130,13 @@ const DetailedQuesRequest = (props) => {
                                     ) : (<></>)
                                 */}
 
-                                <div className='done-btn2' onClick={() => approveQuestion(props.quesID, props.testID)}>
-                                    🆗 Approve
-                                </div>
+                                <br/><br/>
+                                <div className='save' onClick={() => approveQuestion(props.quesID, props.testID)}>
+                                    Approve
+                                </div> <br/>
 
-                                <div className='done-btn2' onClick={() => rejectQuestion(props.quesID, props.testID)}>
-                                    ❌ Decline
+                                <div className='cancel' onClick={() => rejectQuestion(props.quesID, props.testID)}>
+                                    Decline
                                 </div>
 
                             </div>

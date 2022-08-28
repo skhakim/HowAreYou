@@ -261,7 +261,7 @@ const Header = ({changeLoginModalFn, loggedIn, cngLogoutModalFn}) => {
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml:10 }}>             
                             <Button key="PRODUCTS" onClick={() => {
                                 handleCloseNavMenu();
-                                getIdType() === 'psychiatrist_id' ? navigate('/psyhome') : navigate('/tests')}
+                                getIdType() === 'psychiatrist_id' ? navigate('/psyhome') : getIdType() === 'patient_id' ? navigate('/tests') : navigate('/')}
                             } sx={{ my: 2, color: 'black', display: 'block', '&:hover':{backgroundColor: '#9dd2d4',} }}>
                                 Home
                             </Button>

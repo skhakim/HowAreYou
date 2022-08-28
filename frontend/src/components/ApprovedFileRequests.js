@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {getIdType, getToken} from "./Variables";
 import {saveAs} from "file-saver";
 
-const ScoreNDResponse = () => {
+const ApprovedFileRequests = () => {
 
   const [responses, setResponses] = useState([])
   const navigate = useNavigate()
@@ -78,4 +78,4 @@ const ScoreNDResponse = () => {
   )
 }
 
-export default ScoreNDResponse
+export default ApprovedFileRequests
