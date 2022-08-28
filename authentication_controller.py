@@ -87,6 +87,9 @@ def generic_login(auth):
         id_name = 'patient_id'
     elif user.role == 'psychiatrist':
         id_name = 'psychiatrist_id'
+        psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=user.person_id).first()
+        if not psychiatrist.is_verified:
+            return jsonify({'message': 'You are not verified yet!'}), 401
     if user is not None and check_password_hash(user.password_hash, auth.get('password')):
         token = jwt.encode({id_name: user.person_id, 'exp': datetime.utcnow() + timedelta(minutes=600)},
                            app.config['SECRET_KEY'])

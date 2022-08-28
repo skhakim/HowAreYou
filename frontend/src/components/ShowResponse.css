@@ -112,6 +112,8 @@
 
 .commentInput{
   resize: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
 }
 .commentInput:focus{
   border: 5px solid rgb(126, 179, 183);

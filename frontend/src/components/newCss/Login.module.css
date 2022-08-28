@@ -138,4 +138,5 @@ input[type=submit]:hover {
 
 .inp:focus{
 	border: "5px solid #60c4bc";
+    font-family: 'Montserrat', sans-serif;
 }

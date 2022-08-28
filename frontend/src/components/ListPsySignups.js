@@ -52,8 +52,9 @@ const ListPsySignups = () => {
                         <tr>
                         <td>{request.name}</td>
                         <td><div className='response-text'
-                                 onClick={()=>navigate('/det/' + request.testId + '/' + request.id + '/' + request.mode)}>
-                            See Request</div></td><br/> <br/>
+                                 onClick={()=>navigate('/profile/' + request.psychiatrist_id )}>
+                            See Request
+                {console.log("Req", request)}</div></td><br/> <br/>
                         </tr>
                     )
                     )

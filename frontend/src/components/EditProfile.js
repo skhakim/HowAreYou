@@ -163,6 +163,36 @@ const EditProfile = (props) => {
     if (!filled)
         psyClicked(props.id === undefined ? psyClicked(getPersonId()) : psyClicked(props.id)).then();
 
+    const approvePsychiatrist = async (id) => {
+        const res = await fetch('/psy_app/' + id,
+            {
+                'method': 'POST', 'headers': {'Content-Type': 'application/json', 'x-access-token': getToken()}
+            })
+        const data = await res.json()
+        console.log(data)
+        if(data.response === 'success'){
+            alert('Psychiatrist Approved')
+        } else {
+            alert('Please try again')
+        }
+    }
+
+
+    const declinePsychiatrist = async (id) => {
+        const res = await fetch('/psy_dec/' + id,
+            {
+                'method': 'POST', 'headers': {'Content-Type': 'application/json', 'x-access-token': getToken()}
+            })
+        const data = await res.json()
+        console.log(data)
+        if(data.response === 'success'){
+            alert('Psychiatrist Declined Access')
+        } else {
+            alert('Please try again')
+        }
+    }
+
+
     return (
         <div className={styles.ct}>
             {/*<button onClick={() => psyClicked(getPersonId())}> <label>yeyhe u</label></button>*/}
@@ -197,6 +227,8 @@ const EditProfile = (props) => {
 
                             {psyDetail.designation}
                         </div>
+
+                        <div className={styles.cellPro}>Certificate: {psyDetail.cert}</div> <br/> 
 
                         <div style={{display: "flex"}} className={styles.cellPro}>
                             {(props.id === undefined) ?
@@ -398,10 +430,10 @@ const EditProfile = (props) => {
                     <div className='done-btn' onClick={() => uploadChanges()}>
                         Upload Changes
                     </div> : <>
-                        <div className='done-btn3' onClick={() => uploadChanges()}>
+                        <div className='done-btn3' onClick={() => approvePsychiatrist(props.id)}>
                             Approve
                         </div>
-                        <div className='done-btn3' onClick={() => uploadChanges()}>
+                        <div className='done-btn3' onClick={() => declinePsychiatrist(props.id)}>
                             Decline
                         </div>
                     </>

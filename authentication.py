@@ -108,7 +108,7 @@ def approve_psychiatrist(_, psychiatrist_id):
     psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id).first()
     psychiatrist.is_verified = True
     db.session.commit()
-    return {'result': 'success'}
+    return jsonify({'response': 'success'})
 
 
 @app.route('/psy_dec/<int:psychiatrist_id>', methods=['POST'])
@@ -117,4 +117,4 @@ def decline_psychiatrist(_, psychiatrist_id):
     psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id, is_verified=False).first()
     db.session.delete(psychiatrist) # delete the psychiatrist from the database
     db.session.commit()
-    return {'result': 'success'}
+    return jsonify({'response': 'success'})

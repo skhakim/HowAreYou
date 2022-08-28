@@ -38,6 +38,7 @@
     margin: 5% auto 15% auto;
     border: 1px solid #888;
     width: 40%;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .animate {
@@ -99,6 +100,7 @@
 .input-field{
     margin-top: 3%;
     font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* input[type="text"], select

@@ -20,7 +20,7 @@ date_map = {'Monday:': 0, 'Tuesday:': 1, 'Wednesday:': 2, 'Thursday:': 3, 'Frida
 def psychiatrist_details(_id):
     psychiatrist, person = db.session.query(Psychiatrist, Person).filter(
         Psychiatrist.psychiatrist_id == Person.person_id).filter(Psychiatrist.psychiatrist_id == _id).first()
-    ret = {"id": _id, "name": person.name, "cell": person.cellphone, "email": person.email}
+    ret = {"id": _id, "name": person.name, "cell": person.cellphone, "email": person.email, "cert": psychiatrist.certificate_id}
 
     dis = db.session.query(PsychiatristDisease, Disease).filter(PsychiatristDisease.psychiatrist_id == _id) \
         .filter(PsychiatristDisease.disease_id == Disease.disease_id).all()
@@ -144,7 +144,7 @@ def view_verified_report(_, test_response_id=None):
         # Filter the Verified Results
         test_result = db.session.query(TestResult, Test, Person).join(Test, TestResult.test_id == Test.test_id) \
             .join(Person, Person.person_id == TestResult.verifier_id) \
-            .filter(TestResult.patient_id == data['patient_id']).all()
+            .filter(TestResult.patient_id == data['patient_id']).order_by(desc(TestResult.verified_at)).all()
 
         # Get Psychiatrist Suggestions
         psy_suggestions = db.session.query(CounsellingSuggestion, Person) \
