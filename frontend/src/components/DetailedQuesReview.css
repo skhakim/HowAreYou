@@ -1,0 +1,35 @@
+.done-btn2{
+    margin-top: 2%;
+    margin-left: 15%;
+    padding: 5px;
+    background-color: rgb(111, 105, 120);
+    width: 85px;
+    height: 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+.done-btn2:hover{
+    cursor: pointer;
+    background-color: rgb(52, 49, 56);;
+}
+.reason{
+    display: flex;
+}
+
+.done-btn3{
+    margin-top: 1%;
+    margin-left: 3%;
+    padding: 5px;
+    background-color: rgb(251, 215, 240);
+    width: 85px;
+    height: 25px;
+    text-align: center;
+    border-radius: 5px;
+}
+.done-btn3:hover{
+    cursor: pointer;
+    background-color: rgb(52, 49, 56);;
+}
+.reason{
+    display: flex;
+}

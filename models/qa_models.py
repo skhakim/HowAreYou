@@ -1,11 +1,12 @@
 from app import db
-import datetime
 
 # many-to-many relationship TestQuestion  between Test and Question
 TestQuestion = db.Table('test_question',
                         db.Column('test_id', db.Integer, db.ForeignKey('tests.test_id'), primary_key=True),
                         db.Column('question_id', db.Integer, db.ForeignKey('questions.question_id'), primary_key=True),
-                        db.Column('is_approved', db.Boolean, default=False)
+                        db.Column('is_approved', db.Boolean, default=False),
+                        db.Column('pending_delete', db.Boolean, default=False),
+                        db.Column('delete_reasoning', db.String(256))
                         )
 
 
@@ -15,7 +16,7 @@ class Test(db.Model):
     name = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(256))
     created_at = db.Column(db.DateTime, nullable=False)
-    is_approved = db.Column(db.Boolean, default=False)
+    # is_approved = db.Column(db.Boolean, default=False)
     questions = db.relationship('Question', secondary=TestQuestion, lazy='subquery'
                                 , backref=db.backref('tests', lazy=True))
 
@@ -39,7 +40,7 @@ class Question(db.Model):
 class Option(db.Model):
     __tablename__ = 'options'
     option_id = db.Column(db.Integer, primary_key=True)
-    option_text = db.Column(db.String(256), primary_key=True)
+    option_text = db.Column(db.String(256))
     score = db.Column(db.Integer)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
 
@@ -68,9 +69,29 @@ class TestResult(db.Model):
 
 
 CounsellingSuggestion = db.Table('counselling_suggestion',
-                                 db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id'), primary_key=True),
-                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True)
+                                 db.Column('counsel_id', db.Integer, primary_key=True),
+                                 db.Column('test_result_id', db.Integer, db.ForeignKey('test_results.test_result_id')),
+                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'))   #consultant
                                  )
 
 
+class ConsultationRequest(db.Model):
+    __tablename__ = 'consultation_request'
+    consultation_request_id = db.Column(db.Integer, primary_key=True)
+    counsel_id = db.Column(db.Integer,nullable=False)
+    test_result_id = db.Column(db.Integer, db.ForeignKey('test_results.test_result_id'), nullable=False)
+    info = db.Column(db.String(256))
+    approved = db.Column(db.Boolean, default=False)
+    schedule = db.Column(db.String(256))
+    method = db.Column(db.String(64))
+    fee = db.Column(db.Integer)
+    con_time = db.Column(db.DateTime)
 
+
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+    notification_id = db.Column(db.Integer, primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('persons.person_id'), nullable=False)
+    desc = db.Column(db.String(256))
+    seen = db.Column(db.Boolean, default=False)
+    type = db.Column(db.String(1))

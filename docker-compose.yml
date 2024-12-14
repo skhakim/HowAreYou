@@ -1,14 +1,14 @@
-version: '3.8'
+version: '3.9'
 services:
   backend:
-    build:
+    build: 
       context: .
       dockerfile: Dockerfile
     command: 'python run.py'
     ports:
       - 8001:5000
-    volumes:
-      - .:/app
+    # volumes:
+      # - .:/app
     depends_on:
       - db
 

@@ -1,3 +1,4 @@
+import pseudonym_generator
 from app import db, app
 from flask import jsonify
 
@@ -7,8 +8,11 @@ from multidict import MultiDict
 def fetch_test_responses():
     result = db.session.execute("""SELECT tests.name AS test_name, persons.name AS patient_name, tr.score, tr.test_result_id 
     FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
-        INNER JOIN persons ON persons.person_id = tr.patient_id""")
+        INNER JOIN persons ON persons.person_id = tr.patient_id
+        WHERE tr.verifier_id IS NULL""")
     result = [dict(x) for x in result.mappings().all()]
+    for res in result:
+        res['patient_name'] = pseudonym_generator.get_pseudonym()
     return result
 
 
@@ -28,6 +32,22 @@ def fetch_test_result():
 
 @app.route('/show_patient_responses/<test_result_id>')
 def show_patient_responses(test_result_id):
+    return fetch_patient_responses(test_result_id)
+
+
+@app.route('/responseBasic/<test_result_id>')
+def rd(test_result_id):
+    result = db.session.execute("""SELECT persons.name as patient_name, EXTRACT(YEAR FROM age(date_of_birth))::int as patient_age
+    , persons.gender, p.height_inches, p.weight_kgs, p.location, tr.score, tests.name AS test_name
+    FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
+        INNER JOIN persons ON persons.person_id = tr.patient_id
+        INNER JOIN patients p on persons.person_id = p.patient_id WHERE tr.test_result_id = :test_result_id""", {'test_result_id': test_result_id})
+    result = [dict(x) for x in result.mappings().all()]
+    print(result[0])
+    return jsonify({'responseBasic': result[0] })
+
+
+def fetch_patient_responses(test_result_id):
     result = db.session.execute("""SELECT q.question_id as q_id, question_text as q_text, o.option_id as o_id,  
         o2.option_text as choice, o.option_text as answer
         FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
@@ -53,17 +73,6 @@ def show_patient_responses(test_result_id):
         processed_results += [{
             "question_text" : q_text_dict[q_id],
             "options" : [{"value" : x, "checked" : (x == q_answer_dict[q_id])} for x in list(q_choice_multidict.getall(q_id))] }]
-    # print(processed_results)
+    print(processed_results)
     return jsonify({'responseQuestions' : processed_results})
-
-
-@app.route('/responseBasic/<test_result_id>')
-def rd(test_result_id):
-    result = db.session.execute("""SELECT persons.name as patient_name, persons.gender, age(persons.date_of_birth), p.height_inches, p.weight_kgs, p.location, tr.score, tests.name AS test_name
-    FROM tests INNER JOIN test_results tr on tests.test_id = tr.test_id
-        INNER JOIN persons ON persons.person_id = tr.patient_id
-        INNER JOIN patients p on persons.person_id = p.patient_id WHERE tr.test_result_id = :test_result_id""", {'test_result_id': test_result_id})
-    result = [dict(x) for x in result.mappings().all()]
-    print(result[0])
-    return jsonify({'responseBasic': result[0] })
 

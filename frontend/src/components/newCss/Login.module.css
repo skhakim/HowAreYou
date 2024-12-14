@@ -1,0 +1,142 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Varela+Round');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+
+.loginModal, .loginOverlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.loginOverlay {
+    background: rgba(49,49,49,0.8);
+}
+.loginModalContent {
+    position:relative;
+	margin-left: 35%;
+	margin-top: 10%;
+    width: 25%;
+    height: 60%;
+    background: #f1f1f1;
+    border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.loginAvatar{
+	margin-left: auto;
+	margin-right: auto;
+	top: -50px;
+}
+
+.closeLoginModal {
+    position: absolute;
+	font-size: 35px;
+    top: 10px;
+    right: 10px;
+    padding: 5px 7px;
+}
+.closeLoginModal:hover{
+	color:grey;
+	cursor: pointer;
+}
+.loginTitle{
+	font-size: 1.3rem;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	color: rgb(64, 63, 63);
+}
+
+
+
+.row{
+	margin-left: 5%;
+	margin-bottom: 5%;
+}
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.row2{
+	margin-left: 9%;
+	margin-bottom: 5%;
+}
+.row2:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* input[type=text], select, textarea {
+	width: 90%;
+	border: 1px solid #ccc;
+	border-radius: 0px;
+	resize: vertical;
+	height: 50px;
+	outline: none;
+}
+input[type=text]:focus {
+	border: 5px solid #60c4bc;
+}
+
+input[type=password]{
+	width: 93%;
+	border: 1px solid #ccc;
+	border-radius: 0px;
+	resize: vertical;
+	height:50px;
+	outline: none;
+}
+input[type=password]:focus {
+	border: 5px solid #60c4bc;
+}
+
+input[type=submit] {
+	width: 90%;
+	margin-left: 4%;
+	background-color: #60c4bc;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1.1rem;
+}
+  
+input[type=submit]:hover {
+	background-color: #06e6d4;
+} */
+
+.formDiv{
+	margin-top: 7%;
+}
+
+
+.txt{
+	margin-top: 8%;
+	text-align: center;
+}
+.decision{
+	margin-top: 3%;
+	text-align: center;
+}
+.decision:hover{
+	text-decoration: underline;
+	font-weight: 500;
+	/* color:aqua; */
+	cursor: pointer;
+}
+
+.inp:focus{
+	border: "5px solid #60c4bc";
+    font-family: 'Montserrat', sans-serif;
+}

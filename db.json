@@ -1,0 +1,270 @@
+{
+  "login-info": {
+    "email": "1",
+    "password": "1"
+  },
+  "signup-info": {
+    "personType": "psychiatrist",
+    "name": "zaber",
+    "email_": "zaber666@gmailcom",
+    "password_": "100",
+    "dob": "11-11-1111",
+    "gender": "male",
+    "height": "",
+    "weight": "",
+    "location": "",
+    "certificateId": "42069"
+  },
+  "specificTests": [
+    {
+      "id": 1,
+      "testName": "OCD Test",
+      "description": "Suffering from obsessive thoughts of compulsive behavior? Take a tour to our OCD tests."
+    },
+    {
+      "id": 2,
+      "testName": "PTSD Test",
+      "description": "Any horrible course of events that are still terrifying you? Find out through our PTSD tests."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "questionText": "What are you?",
+      "options": [
+        {
+          "id": 1,
+          "value": "human"
+        },
+        {
+          "id": 2,
+          "value": "dog"
+        },
+        {
+          "id": 3,
+          "value": "cat"
+        },
+        {
+          "id": 4,
+          "value": "panda"
+        },
+        {
+          "id": 5,
+          "value": "bird"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "questionText": "What do you eat?",
+      "options": [
+        {
+          "id": 1,
+          "value": "Rice"
+        },
+        {
+          "id": 2,
+          "value": "Meat"
+        },
+        {
+          "id": 3,
+          "value": "Veggies"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "questionText": "What did you go?",
+      "options": [
+        {
+          "id": 1,
+          "value": "Home"
+        },
+        {
+          "id": 2,
+          "value": "School"
+        },
+        {
+          "id": 3,
+          "value": "Market"
+        },
+        {
+          "id": 4,
+          "value": "Park"
+        }
+      ]
+    }
+  ],
+  "answers": [
+    [
+      {
+        "quesId": "1",
+        "ansId": "4"
+      },
+      {
+        "quesId": "3",
+        "ansId": "3"
+      },
+      {
+        "quesId": "2",
+        "ansId": "3"
+      }
+    ]
+  ],
+  "responses": [
+    {
+      "id": 1,
+      "testName": "PCR",
+      "patientId": 100,
+      "patientName": "John",
+      "systemScore": "covid"
+    },
+    {
+      "id": 2,
+      "testName": "PCR",
+      "patientId": 101,
+      "patientName": "Doe",
+      "systemScore": "not covid"
+    },
+    {
+      "id": 3,
+      "testName": "PCR",
+      "patientId": 102,
+      "patientName": "Joe",
+      "systemScore": "not covid"
+    },
+    {
+      "id": 4,
+      "testName": "PCR",
+      "patientId": 103,
+      "patientName": "Done",
+      "systemScore": "covid"
+    }
+  ],
+  "responseBasic": {
+    "id": 9,
+    "testName": "OCD Test",
+    "patientName": "John",
+    "patientId": 100,
+    "patientLocation": "Dhaka",
+    "patientAge": "24 years",
+    "patientGender": "male",
+    "patientWeight": "60 kgs",
+    "patientHeight": "110 inches",
+    "systemScore": "morse"
+  },
+  "responseQuestions": [
+    {
+      "id": 1,
+      "questionText": "What are you?",
+      "options": [
+        {
+          "id": 1,
+          "value": "bird",
+          "checked": true
+        },
+        {
+          "id": 2,
+          "value": "human",
+          "checked": false
+        },
+        {
+          "id": 3,
+          "value": "cat",
+          "checked": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "questionText": "What do you eat?",
+      "options": [
+        {
+          "id": 1,
+          "value": "Meat",
+          "checked": false
+        },
+        {
+          "id": 2,
+          "value": "Rice",
+          "checked": false
+        },
+        {
+          "id": 3,
+          "value": "water",
+          "checked": true
+        }
+      ]
+    }
+  ],
+  "comment_response": {
+    "comment": "holaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "disorder_list": [
+    "Fever",
+    "Cold",
+    "Headache"
+  ],
+  "disorderSugesstion": {
+    "Fever": false,
+    "Cold": false,
+    "Headache": true
+  },
+  "verifiedReports": [
+    {
+      "reportId": 1,
+      "psychiatrist": "Md. Mahbubur Rahman",
+      "time": "8:53 PM, July 21th, 2022",
+      "systemScore": "morse",
+      "sugesstions": "eat, sleep, conquer repeat!!",
+      "suggestedPsychiatrists": [
+        "MA. Adnan Mollah",
+        "Faizur Rahman"
+      ]
+    },
+    {
+      "reportId": 2,
+      "psychiatrist": "Md. Mahfuzur Rahman",
+      "time": "8:59 AM, July 19th, 2022",
+      "systemScore": "bachbe",
+      "sugesstions": "give up on your dreams and die",
+      "suggestedPsychiatrists": [
+        "MA. Sohel Rahman",
+        "Pritam Kumar"
+      ]
+    },
+    {
+      "reportId": 3,
+      "psychiatrist": "Md. Fazlul Karim",
+      "time": "8:57 AM, July 19th, 2022",
+      "systemScore": "neutral",
+      "sugesstions": "piece of shit",
+      "suggestedPsychiatrists": [
+        "MA. Adnan Rahman",
+        "Pritam Kumar"
+      ]
+    }
+  ],
+  "consultationRequest": {
+    "test_result_id": 81,
+    "consultant_id": 9,
+    "info": "Hello World",
+    "schedule": "Majh Rate",
+    "method": "Video Call",
+    "fee": 5000
+  }
+}
+
+"question": {
+  "text": "Kemon Acho?",
+  "options": [
+    {
+      "text": "Valo",
+      "score" : 1
+    },
+    {
+      "text": "Valo Na",
+      "score" : 0
+    }
+  ]
+}

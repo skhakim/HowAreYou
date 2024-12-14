@@ -2,6 +2,7 @@ from enum import unique
 from app import db
 
 
+
 # extend db.Model to create Person with name, email, password_hash, dob, gender, phone_number, photo_path, and role
 #
 class Person(db.Model):
@@ -33,7 +34,13 @@ class Psychiatrist(Person):
     is_verified = db.Column(db.Boolean, default=False)
     available_times = db.Column(db.String(256))
     certificate_id = db.Column(db.String(32))
+    fee = db.Column(db.Integer)
 
+
+class ReviewBoardMember(Psychiatrist):
+    __tablename__ = 'review_board_member'
+    board_member_id = db.Column(db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True) # foreign key to psychiatrist_id
+    joined_as_board_member = db.Column('joined_as_board_member', db.DateTime)
 
 class Award(db.Model):
     __tablename__ = 'awards'
@@ -49,15 +56,26 @@ class Degree(db.Model):
     institution = db.Column(db.String(256))
 
 
-PsychiatristAward = db.Table('psychiatrist_award',
-                                db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
-                                db.Column('award_id', db.Integer, db.ForeignKey('awards.award_id'), primary_key=True)
-                             )
+# PsychiatristAward = db.Table('psychiatrist_award',
+#                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
+#                                 db.Column('award_id', db.Integer, db.ForeignKey('awards.award_id'), primary_key=True)
+#                              )
 
-PsychiatristDegree = db.Table('psychiatrist_degree',
-                                db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
-                                db.Column('degree_id', db.Integer, db.ForeignKey('degrees.degree_id'), primary_key=True)
-                              )
+class PsychiatristAward(db.Model):
+    __tablename__ = 'psychiatrist_award'
+    psychiatrist_id = db.Column(db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True) # foreign key to psychiatrist_id
+    award_id = db.Column(db.Integer, db.ForeignKey('awards.award_id'), primary_key=True) # foreign key to award_id
+
+
+# PsychiatristDegree = db.Table('psychiatrist_degree',
+#                                 db.Column('psychiatrist_id', db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True),
+#                                 db.Column('degree_id', db.Integer, db.ForeignKey('degrees.degree_id'), primary_key=True)
+#                               )
+
+class PsychiatristDegree(db.Model):
+    __tablename__ = 'psychiatrist_degree'
+    psychiatrist_id = db.Column(db.Integer, db.ForeignKey('psychiatrists.psychiatrist_id'), primary_key=True) # foreign key to psychiatrist_id
+    degree_id = db.Column(db.Integer, db.ForeignKey('degrees.degree_id'), primary_key=True) # foreign key to degree_id
 
 
 class Role(db.Model):

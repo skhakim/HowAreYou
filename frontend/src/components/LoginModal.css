@@ -10,7 +10,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    height: 60%;
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
@@ -38,6 +38,7 @@
     margin: 5% auto 15% auto;
     border: 1px solid #888;
     width: 40%;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .animate {
@@ -99,9 +100,10 @@
 .input-field{
     margin-top: 3%;
     font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
-input[type="text"], select
+/* input[type="text"], select
 {
     width: 100%;
     height: 35px;
@@ -109,6 +111,7 @@ input[type="text"], select
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 
 }
 
@@ -120,7 +123,7 @@ input[type="password"]
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
+} */
 
 .open-acc{
     margin-top: 3%;

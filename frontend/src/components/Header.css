@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+
 nav {
     display: flex;
     align-items: center;
@@ -19,7 +20,7 @@ nav {
 .nav-links li {
     position: relative;
     padding-right: 12%;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
     /* white-space: nowrap; */
@@ -121,5 +122,94 @@ nav {
 
 .rad-box-name:hover {
   	cursor: pointer;
+}
+
+
+
+
+
+.modal1, .overlay1 {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlay1 {
+    background: rgba(49,49,49,0.8);
+}
+.modal-content1 {
+    position:relative;
+    width: 30%;
+    height: 20%;
+    margin-left: 65%;
+    margin-top: 8%;
+    background: #dcbff3;
+    border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.modal-content2 {
+    position:relative;
+    width: 40%;
+    margin-left: 55%;
+    margin-top: 8%;
+    background: #dcbff3;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.detailContainer1{
+    margin-top: 6%;
+    margin-left: 2%;
+    word-wrap:break-word;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 10px;
+}
+
+.task{
+    margin-top: 2%;
+}
+
+.task:hover{
+    cursor: pointer;
+}
+
+.requestItem{
+    display: flex;
+    font-size: 0.8rem;
+}
+
+.leftItem{
+    width: 70%;
+    margin-right: 2.5%;
+    word-wrap:break-word;
+}
+
+.rightItem{
+    width: 25%;
+    margin-left: 2.5%;
+}
+
+.icon1{
+    font-size: 1.1rem;
+}
+.icon1:hover{
+    cursor: pointer;
+    background-color: #65e178;
+}
+
+
+.icon2{
+    font-size: 1.1rem;
+}
+.icon2:hover{
+    cursor: pointer;
+    background-color: #e17165;
 }

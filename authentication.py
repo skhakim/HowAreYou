@@ -79,9 +79,9 @@ def d(_):
     return 'Hello'
 
 
-@app.route('/patient_signup/<_id>', methods=['POST'])
+@app.route('/signup/<int:_id>', methods=['POST'])
 def patient_signup(_id):
-    return patient_signup_control(_id, request)
+    return signup_control(_id, request)
 
 
 @app.route('/info', methods=['POST'])
@@ -92,3 +92,34 @@ def print_info():
 
     """
     return 'Hello, world!'
+
+
+@app.route('/psy_not_app', methods=['GET'])
+@is_review_board_member
+def verify_psychiatrists(_):
+    psychs = Psychiatrist.query.with_entities(Psychiatrist.psychiatrist_id, Psychiatrist.name, Psychiatrist.certificate_id)\
+        .filter_by(is_verified=False).all()
+    return jsonify({'psychiatrists': [dict(zip(['psychiatrist_id', 'name', 'certificate_id'], psych)) for psych in psychs]})
+
+
+@app.route('/psy_app/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def approve_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id).first()
+    psychiatrist.is_verified = True
+    db.session.commit()
+
+    notification = Notification(person_id=psychiatrist_id, desc='Your account has been approved.', type='D')
+    db.session.add(notification)
+    db.session.commit()
+
+    return jsonify({'response': 'success'})
+
+
+@app.route('/psy_dec/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def decline_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id, is_verified=False).first()
+    db.session.delete(psychiatrist) # delete the psychiatrist from the database
+    db.session.commit()
+    return jsonify({'response': 'success'})

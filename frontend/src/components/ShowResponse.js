@@ -1,9 +1,11 @@
 import React from 'react'
 import "./ShowResponse.css"
 import { useEffect, useState } from 'react'
-import {getToken} from "./Variables";
-
+import {getToken, getPersonId} from "./Variables";
+import {useNavigate} from "react-router-dom";
 const ShowResponse = (props) => {
+    
+    const navigate = useNavigate()
 
     const [responseee, setResponse] = useState({
         patient_name: 'sx', height_inches: -5, weight_kgs: -7, patient_location: 'milky way'
@@ -36,40 +38,57 @@ const ShowResponse = (props) => {
 
     }, [])
 
-    const commentUpload = async (comment) => {
-        const res = await fetch('http://localhost:5000/submit_comment/' + props.testResultId,
-            {
-                method: "POST", 
-                headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
-                body: JSON.stringify(comment)
-            }
-        )
-        const data = await res.json()
-    }
+    // const commentUpload = async (comment) => {
+    //     const res = await fetch('http://localhost:5000/submit_comment/' + props.testResultId,
+    //         {
+    //             method: "POST", 
+    //             headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
+    //             body: JSON.stringify(comment)
+    //         }
+    //     )
+    //     const data = await res.json()
+    // }
 
-    const onCommentPost = (e) => {
+
+    // const onCommentPost = (e) => {
+    //     e.preventDefault();
+
+        
+    // }
+
+    const uploadReport = async(e) => {
         e.preventDefault();
 
         if(!comment){
             alert("Comment is empty");
             return;
         }
-        commentUpload({comment});
-        setComment('');
-    }
+        // commentUpload({comment});
+        
 
-    const uploadDisorders = async(e) => {
-        e.preventDefault();
-
-        const res = await fetch('http://localhost:5000/disorder_suggestions/' + props.testResultId,
+        const res = await fetch('http://localhost:5000/submit_review_report/' + props.testResultId,
             {
                 method: "POST",
                 headers: {'Content-type': 'application/json', 'x-access-token': getToken()},
-                body: JSON.stringify(responseDisorders)
+                body: JSON.stringify({"test_result_id" : props.testResultId, "verifier_id" : getPersonId(),  "disorder" : responseDisorders, "comment" : comment })
             }
         )
+
+        setComment('');
+        // setResponseDisorder({});
+        resetDiseaseList(e);
+        // console.log({"test_result_id" : props.testResultId, "disorder" : responseDisorders, "comment" : comment })
         const data = await res.json()
+        if (data["response"] === "success"){
+            alert("Report submitted successfully");
+            navigate('/psyhome')
+        }
+        else{
+            alert("Something went wrong")
+        }
     }
+
+
 
 
     const fetchResponse = async (trId) => {
@@ -101,10 +120,21 @@ const ShowResponse = (props) => {
         return _data
     }
 
+    const resetDiseaseList = (e) => {
+        var tempDict = {}
+        for (const [key, value] of Object.entries(responseDisorders)){
+            tempDict[key] = false
+        }
+        setResponseDisorder(tempDict)
+        // console.log("Temp Dict"  +Object.entries( tempDict))
+
+    }
+
 
 
     const handleList = (e) => {
         var tempDict = {}
+        console.log("Handle List")
         for (const [key, value] of Object.entries(responseDisorders)){
             tempDict[key] = value
         }
@@ -116,13 +146,13 @@ const ShowResponse = (props) => {
             { console.log('Props:', props) }
             { responseee &&
             <div>
-                System Report For <b><i>{ responseee.patient_name }</i></b> against <b><i>{responseee.test_name}</i></b>
+                System report for a patient against <b><i>{responseee.test_name}</i></b>
             </div> }
             <hr className='line-psy'></hr>
 
-            <div className='section'>Test Questions</div>
+            <div style={{color:"black"}} className='section'><b>Test Questions</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div>{responseee.height_inches} {responseee.weight_kgs} {responseee.patient_location} {responseee.score}</div>
+            {/*<div>{responseee.height_inches} {responseee.weight_kgs} {responseee.patient_location} {responseee.score}</div>*/}
 
             {
                 questionAns.map(
@@ -155,7 +185,7 @@ const ShowResponse = (props) => {
                 )
             }
 
-            <div className='section'>Demographic Informations</div>
+            <div style={{color:"black"}} className='section'><b>Demographic Informations</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
 
             <div className='answerHandler'>
@@ -164,51 +194,53 @@ const ShowResponse = (props) => {
                     <div className='questionId2'>1.</div>
                     <div className='questionText'>Age</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientAge}</div>
+                <div className='optionContainer'>{responseee.patient_age} years</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>2.</div>
                     <div className='questionText'>Gender</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientGender}</div>
+                <div className='optionContainer'>
+                    {(responseee.gender == 'M') ? 'Male' : ((responseee.gender == 'F') ? 'Female' : 'Unspecified')}
+                </div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>3.</div>
                     <div className='questionText'>Height</div>
                 </div>
-                <div className='optionContainer'>{responseee.height_inches}</div>
+                <div className='optionContainer'>{responseee.height_inches} inches</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>4.</div>
                     <div className='questionText'>Weight</div>
                 </div>
-                <div className='optionContainer'>{responseee.weight_kgs}</div>
+                <div className='optionContainer'>{responseee.weight_kgs} kgs</div>
 
                 <div className='questionTextContainer'>
                     <div className='questionId2'>5.</div>
                     <div className='questionText'>Location</div>
                 </div>
-                <div className='optionContainer'>{responseee.patientLocation}</div>
+                <div className='optionContainer'>{responseee.location}</div>
             </div>
 
 
-            <div className='section'>System Score</div>
+            <div style={{color:"black"}} className='section'><b>System Score</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
-            <div className='optionContainer'>{responseee.systemScore}</div>
+            <div className='optionContainer'>{responseee.score}</div>
 
 
-            <div className='section'>Add Suggestions</div>
+            <div style={{color:"black"}} className='section'><b>Add Suggestions</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
             <div className='commentContainer'>
-                <textarea className='commentInput' rows="5" cols="70" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                <textarea className='commentInput' style={{width:"500px", height:"100px"}} rows="5" cols="50" placeholder='Enter Sugesstions' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
 
-                <div className="commentBtn" onClick={onCommentPost}>
+                {/* <div className="commentBtn" onClick={onCommentPost}>
                     <span className='commentSpan'>Comment</span>
-                </div>
+                </div> */}
             </div>
 
 
-            <div className='section'>Add Possible Disorder</div>
+            <div style={{color:"black"}} className='section'><b>Add Possible Disorder</b></div>
             <hr className='line-psy' style={{width:"30%"}}></hr>
 
             {
@@ -217,7 +249,7 @@ const ShowResponse = (props) => {
                         <div className='optionContainer'>
 
                             <label className="ckbox-container-show">{disorder}
-                                <input type="checkbox" value={disorder} onChange={(e) => handleList(e)}/>
+                                <input checked = {responseDisorders[disorder]} type="checkbox" value={disorder} onChange={(e) => handleList(e)}/>
                                 <span className="ckbox-checkmark-show"></span>
 
                             </label>
@@ -227,7 +259,7 @@ const ShowResponse = (props) => {
                 )
             }
 
-            <div className="notifyBtn" onClick={uploadDisorders}>
+            <div className="notifyBtn" onClick={uploadReport}>
                 <span className='notifySpan'>Notify</span>
             </div>
 

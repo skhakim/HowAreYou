@@ -3,11 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_session import Session
+from calendar_auth import service
 
 
 app = Flask(__name__)
 # set app config uri to postgres
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/mhst'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@db/mhst'   #FOR SRJ
+
+app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'HahaNoSecret'
 app.secret_key = 'NoSecretEither'
@@ -18,7 +22,7 @@ cors = CORS(app)
 Session(app)
 
 # Create the database tables.
-# db.create_all()
+db.create_all()
 
 
 @app.route('/')

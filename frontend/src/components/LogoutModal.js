@@ -16,6 +16,7 @@ const LogoutModal = ({cngLogoutModalFn}) => {
                     <input type="submit" className="login-btn-modal" value="Logout" onClick={() => {
                         clearAll()
                         navigate('/')
+                        window.location.reload();
                     }} />
                 </div>
 

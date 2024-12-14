@@ -1,0 +1,76 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+.modalNoti, .overlayNoti {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlayNoti {
+    background: rgba(49,49,49,0.8);
+}
+.modalContentNoti {
+    position:relative;
+    width: 30%;
+    height: 70%;
+    margin-left: 68%;
+    margin-top: 6%;
+    background: #d4e8f0;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+.detailContainerNoti{
+
+    margin-top: 6%;
+    margin-left: 2%;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 10px;
+
+    height: 80%;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.taskNoti{
+    margin-top: 2%;
+}
+
+.taskNoti:hover{
+    cursor: pointer;
+}
+
+.linePsy{
+    width: 98%;
+    margin-left: 0%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.notiHeader{
+    margin-top: 20px;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.eachNoti{
+    display: flex;
+    font-size: 1.1rem;
+    margin-bottom: 2%;
+}
+.eachNoti:hover{
+    cursor: pointer;
+}
+
+.leftNoti{
+    margin-right: 3%;
+}
+

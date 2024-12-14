@@ -34,11 +34,11 @@ const ScoreNDResponse = () => {
         <hr className='line-psy'></hr>
 
 
-        <table className="table-wrapper-cross-y content-table">
+        <table style={{marginLeft:"7%"}} className="table-wrapper-cross-y content-table">
           <thead>
           <tr>
             <th>Test Name</th>
-            <th>Patient Name (to be anonymised later)</th>
+            <th>Patient Name</th>
             <th>System Score</th>
             <th>Response</th>
           </tr>
@@ -51,6 +51,7 @@ const ScoreNDResponse = () => {
                     <tr>
                       <td>{response.test_name}</td>
                       <td>{response.patient_name}</td>
+                      {/* <td>John</td> */}
                       <td>{response.score}</td>
                       {/* TODO: insert a l
                       ink to */}

@@ -1,0 +1,91 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Varela+Round');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+
+.logoutModal, .logoutOverlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.logoutOverlay {
+    background: rgba(49,49,49,0.8);
+}
+.logoutModalContent {
+    position:relative;
+	margin-left: 35%;
+	margin-top: 10%;
+    width: 25%;
+    height: 35%;
+    background: #f1f1f1;
+    border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+}
+
+.logoutAvatar{
+	margin-left: auto;
+	margin-right: auto;
+	top: -50px;
+}
+
+.closeLogoutModal {
+    position: absolute;
+	font-size: 35px;
+    top: 10px;
+    right: 10px;
+    padding: 5px 7px;
+}
+.closeLogoutModal:hover{
+	color:grey;
+	cursor: pointer;
+}
+.logoutTitle{
+	font-size: 1.3rem;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	color: rgb(64, 63, 63);
+}
+
+
+
+.rowOut{
+	margin-left: 5%;
+	margin-bottom: 5%;
+}
+.rowOut:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.formDivOut{
+	margin-top: 7%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 50%;
+    
+}
+
+
+.txtOut{
+	margin-top: 2%;
+	text-align: center;
+}
+.decisionOut{
+	margin-top: 3%;
+	text-align: center;
+}
+.decisionOut:hover{
+	text-decoration: underline;
+	font-weight: 500;
+	/* color:aqua; */
+	cursor: pointer;
+}

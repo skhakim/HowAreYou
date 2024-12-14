@@ -15,10 +15,11 @@
 }
 
 .test-name {
-    color: #2b9dfa;
+    color: #4b8ec4;
     font-weight: bold;
     font-size: 1.5rem;
     margin-top: 1.5%;
+    /* border: 2px solid red; */
 }
 .test-name:hover {
     cursor: pointer;
@@ -35,8 +36,9 @@
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
     height: 60%;
-    margin-top: 5%;
+    margin-top: 10%;
     margin-left: 10%;
+    
 }
 
 .topic-header{
@@ -46,4 +48,21 @@
 
 .spaced{
     margin-top: 10%;
+}
+
+
+.uploadHere{
+    margin-top: 2%;
+    height: 150px;
+    width: 20%;
+    margin-left: 1%;
+    background-color: #04cdd4;
+    border: 2px solid rgb(39, 40, 42);
+    border-radius: 10px;
+    /* background-color: #044446; */
+}
+.uploadHere:hover{
+    background-color: #029297;
+    border: 2px solid rgb(8, 18, 39);
+    cursor: pointer;
 }

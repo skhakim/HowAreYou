@@ -1,3 +1,10 @@
 __pycache__/
 .idea/
 venv/
+fr_end/node_modules/
+node_modules/
+/token.json
+
+uploads/
+
+tmp.zip

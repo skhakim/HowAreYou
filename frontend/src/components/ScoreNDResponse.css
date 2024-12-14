@@ -40,7 +40,7 @@
 }
 
 .content-table thead tr {
-    background-color: rgb(36, 40, 43);
+    background-color: rgb(66, 102, 131);
     color: #ffffff;
     text-align: left;
     font-weight: bold;
@@ -52,7 +52,8 @@
 }
 
 .content-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    background-color: #d1e4e0;
+    border-bottom: 1px solid #787c7b61;
 }
 
 
@@ -74,10 +75,15 @@ td, th
     vertical-align: middle;
 }
 
+.response-text{
+    padding: 5px;
+}
 
 .response-text:hover{
     /* font-size: 1.05rem; */
     font-weight: 300;
     cursor: pointer;
-    color: #2b9dfa;
+    color: #ffffff;
+    background-color: rgb(120, 143, 161);
+    border-radius: 5px;
 }

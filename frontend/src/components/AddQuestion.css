@@ -1,0 +1,78 @@
+.ques-body{
+    margin-top: 5%;
+}
+label{
+    margin-bottom: 10px;
+}
+.add-new-option{
+
+    background-color: rgb(126, 229, 145);
+    height: 35px;
+    line-height: 35px;
+    display: flex;
+    width: 15%;
+    /* padding: 3px; */
+    border-radius: 5px;
+    margin-left:10%;
+    justify-content: center;
+}
+.add-new-option:hover{
+    cursor: pointer;
+    background-color: rgb(38, 97, 43);
+}
+.saveNDcancel{
+    display: flex;
+}
+.save{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 5%;
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+    /* margin-right: 5%; */
+}
+.save:hover{
+    cursor: pointer;
+    background-color: rgb(167, 213, 167);
+}
+.cancel{
+    background-color: rgb(213, 210, 210);
+    height: 20px;
+    line-height: 20px;
+    width: 5%;
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 5%;
+}
+.cancel:hover{
+    cursor: pointer;
+    background-color: rgb(195, 153, 153);
+}
+
+.cross:hover{
+    cursor: pointer;
+}
+.done-btn{
+    margin-top: 5%;
+    margin-left: 40%;
+    background-color: rgb(144, 174, 187);
+    width: 200px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 5px;
+    vertical-align: middle;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.done-btn:hover{
+    cursor: pointer;
+    background-color: rgb(67, 150, 186);
+}
+.option-header{
+    display: flex;
+}

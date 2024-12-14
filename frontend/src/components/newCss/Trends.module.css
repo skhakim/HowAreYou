@@ -1,0 +1,13 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.trendHeader{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: flex;
+}
+.numberStat{
+    font-size: 2rem;
+}

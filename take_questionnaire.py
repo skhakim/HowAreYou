@@ -62,7 +62,7 @@ from models.qa_models import *
 """
 
 
-@app.route('/calculate_result', methods=['POST'])
+@app.route('/calculate_result/<test_result_id>', methods=['POST'])
 def calculate_score(test_result_id, **kwargs):
     """
         Calculate the score of a test result.
@@ -76,6 +76,7 @@ def calculate_score(test_result_id, **kwargs):
         print(option.option_id)
         score += option.score
     test_result.score = score   # update the score in the database
+    print(test_result_id, score)
     db.session.commit()
-    return score
+    return "OK"
 
