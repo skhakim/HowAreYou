@@ -1,10 +1,26 @@
+# Python
 __pycache__/
-.idea/
+*.pyc
 venv/
-fr_end/node_modules/
-node_modules/
-/token.json
+.venv/
 
+# Secrets and local config
+.env
+credentials.json
+token.json
+**/credentials.json
+
+# Runtime data
 uploads/
+postgres/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Node
+node_modules/
+frontend/build/
 
 tmp.zip

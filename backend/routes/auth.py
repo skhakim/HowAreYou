@@ -1,0 +1,160 @@
+"""Account routes: login, signup, profile and psychiatrist verification."""
+import jwt
+from flask import jsonify, make_response, request
+from werkzeug.security import generate_password_hash
+
+from backend import app, db
+from backend.models.export import Award, Notification, Patient, Person, Psychiatrist, PsychiatristAward
+from backend.services.auth import (
+    generic_login, init_psychiatrist_token_required, is_review_board_member,
+    patient_token_required, psychiatrist_token_required, signup_control, token_required,
+)
+
+
+@app.route('/user', methods=['GET'])
+@token_required
+def get_all_users(_):
+    users = Person.query.all()
+    output = []
+    for user in users:
+        output.append({
+            'person_id': user.person_id,
+            'name': user.name,
+            'email': user.email
+        })
+    return jsonify({'users': output})
+
+
+@app.route('/own', methods=['GET'])
+@patient_token_required
+def get_current_user(_):
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    user = Patient.query.filter_by(patient_id=data['patient_id']).first()
+    return {
+            'public_id': user.person_id,
+            'name': user.name,
+            'email': user.email
+        }
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    auth = request.get_json(force=True)
+    return generic_login( auth)
+
+#
+# @app.route('/patient_login', methods=['POST'])
+# def patient_login():
+#     auth = request.get_json(force=True)
+#     # print(auth)
+#     return generic_login('Patient', auth)
+#
+#
+# @app.route('/psychiatrist_login', methods=['POST'])
+# def psychiatrist_login():
+#     auth = request.get_json(force=True)
+#     # print(auth)
+#     return generic_login('Psychiatrist', auth)
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json(force=True)
+    name, email = data.get('name'), data.get('email')
+    password = data.get('password')
+
+    user = Person.query.filter_by(email=email).first()
+    if not user:
+        user = Person(
+            name=name,
+            email=email,
+            password_hash=generate_password_hash(password))
+        db.session.add(user)
+        db.session.commit()
+        return make_response('Successfully registered.', 201)
+    else:
+        return make_response('User already exists. Please Log in.', 202)
+
+
+@app.route('/r')
+@psychiatrist_token_required
+def d(_):
+    return 'Hello'
+
+
+@app.route('/signup/<int:_id>', methods=['POST'])
+def patient_signup(_id):
+    return signup_control(_id, request)
+
+
+@app.route('/info', methods=['POST'])
+def print_info():
+    print(request.get_json(force=True))
+    """
+    {'personType': 'patient', 'name': 'sbgnftr', 'email_': 'a@g.d', 'password_': 'vfetbtbrb', 'dob': '12-12-1202', 'gender': 'others', 'height': '85', 'weight': '120', 'location': 'sddcf', 'certificateId': ''}
+
+    """
+    return 'Hello, world!'
+
+
+@app.route('/psy_not_app', methods=['GET'])
+@is_review_board_member
+def verify_psychiatrists(_):
+    psychs = Psychiatrist.query.with_entities(Psychiatrist.psychiatrist_id, Psychiatrist.name, Psychiatrist.certificate_id)\
+        .filter_by(is_verified=False).all()
+    return jsonify({'psychiatrists': [dict(zip(['psychiatrist_id', 'name', 'certificate_id'], psych)) for psych in psychs]})
+
+
+@app.route('/psy_app/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def approve_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id).first()
+    psychiatrist.is_verified = True
+    db.session.commit()
+
+    notification = Notification(person_id=psychiatrist_id, desc='Your account has been approved.', type='D')
+    db.session.add(notification)
+    db.session.commit()
+
+    return jsonify({'response': 'success'})
+
+
+@app.route('/psy_dec/<int:psychiatrist_id>', methods=['POST'])
+@is_review_board_member
+def decline_psychiatrist(_, psychiatrist_id):
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=psychiatrist_id, is_verified=False).first()
+    db.session.delete(psychiatrist) # delete the psychiatrist from the database
+    db.session.commit()
+    return jsonify({'response': 'success'})
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@token_required
+def generic_logout():
+    jwt.encode(dict())
+
+
+@app.route('/change_profile', methods=['POST'])
+@init_psychiatrist_token_required
+def change_profile(_):
+    req_data = request.get_json(force=True)
+    token = request.headers['x-access-token']
+    data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    psychiatrist = Psychiatrist.query.filter_by(psychiatrist_id=data['psychiatrist_id']).first()
+    print(data.keys())
+    psychiatrist.cellphone = req_data['cell']
+    print(req_data.keys())
+    psychiatrist.available_hours = ';'.join(req_data['available_hours'])
+    for award_data in req_data['awards']:
+        if ';' not in award_data:
+            continue
+        award_name, award_inst = award_data.split(';')
+        award = Award(host=award_inst, name=award_name)
+        db.session.add(award)
+        db.session.commit()
+        psy_award = PsychiatristAward(award_id=award.award_id, psychiatrist_id=psychiatrist.psychiatrist_id)
+        db.session.add(psy_award)
+    db.session.add(psychiatrist)
+    db.session.commit()
+    return "OK"
