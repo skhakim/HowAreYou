@@ -1,19 +1,21 @@
 version: '3.9'
 services:
   backend:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
-    command: 'python run.py'
+    command: python -m backend.run
+    env_file: .env
+    environment:
+      # Inside compose the database host is the `db` service.
+      DATABASE_URL: postgresql://postgres:postgres@db/mhst
     ports:
       - 8001:5000
-    # volumes:
-      # - .:/app
     depends_on:
       - db
 
   db:
-    image : postgres:14.1-alpine
+    image: postgres:14.1-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -23,6 +25,5 @@ services:
       - '5433:5432'
     volumes:
       - ./postgres:/var/lib/postgresql/data
-      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
-
-
+      # Loaded only when the data directory is empty (first start).
+      - ./db/backup.sql:/docker-entrypoint-initdb.d/backup.sql

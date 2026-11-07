@@ -29,3 +29,8 @@ uuid==1.30
 Werkzeug==2.1.2
 WTForms==3.0.1
 zipp==3.8.1
+numpy>=1.23
+python-dotenv>=0.21
+google-auth>=2.9
+google-auth-oauthlib>=0.5
+google-api-python-client>=2.55
